@@ -523,19 +523,18 @@ export default function App() {
       </main>
 
       <footer>
-        <div className="footer-row">
+        <div className="footer-top">
           <span className="footer-brand">Options Academy</span>
-          <span className="footer-sep">·</span>
-          <span className="footer-edu">For educational purposes only</span>
-          <span className="footer-spacer" />
           <span className="footer-built">Built by <strong>Shriansh Jena</strong></span>
         </div>
+        <div className="footer-divider" />
         <p className="footer-thanks">
-          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team for their time, patience, and dedication in teaching and guiding this learning experience.
+          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This project would not exist without you.
         </p>
+        <p className="footer-note">For educational purposes only</p>
       </footer>
 
-      <ChatBot onNavigate={setActive} open={chatOpen} onClose={() => setChatOpen(false)} />
+      <ChatBot onNavigate={setActive} open={chatOpen} onToggle={() => setChatOpen(o => !o)} />
     </div>
   )
 }

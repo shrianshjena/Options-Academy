@@ -26,7 +26,7 @@ function parseNav(text) {
   return { nav: null, clean: text }
 }
 
-export default function ChatBot({ onNavigate, open, onClose }) {
+export default function ChatBot({ onNavigate, open, onToggle }) {
   const [messages, setMessages] = useState([WELCOME])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -37,9 +37,7 @@ export default function ChatBot({ onNavigate, open, onClose }) {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 80)
-    }
+    if (open) setTimeout(() => inputRef.current?.focus(), 80)
   }, [open])
 
   useEffect(() => {
@@ -49,7 +47,6 @@ export default function ChatBot({ onNavigate, open, onClose }) {
   async function send() {
     const text = input.trim()
     if (!text || loading) return
-
     const now = Date.now()
     if (now - lastSent < COOLDOWN_MS) return
     if (msgCount >= SESSION_LIMIT) return
@@ -95,25 +92,25 @@ export default function ChatBot({ onNavigate, open, onClose }) {
   }
 
   function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      send()
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send() }
   }
 
   const limitReached = msgCount >= SESSION_LIMIT
 
   return (
     <>
-      {open && <div className="chat-backdrop" onClick={onClose} />}
+      {open && <div className="chat-backdrop" onClick={onToggle} />}
 
       <div className={`chat-panel ${open ? 'chat-panel-open' : ''}`}>
         <div className="chat-header">
           <div className="chat-header-left">
             <div className="chat-avatar">S</div>
-            <div className="chat-name">Shri — Options Tutor</div>
+            <div>
+              <div className="chat-name">Shri</div>
+              <div className="chat-status">Options tutor</div>
+            </div>
           </div>
-          <button className="chat-close" onClick={onClose} title="Close">✕</button>
+          <button className="chat-close" onClick={onToggle} title="Close">✕</button>
         </div>
 
         <div className="chat-messages">
@@ -126,9 +123,7 @@ export default function ChatBot({ onNavigate, open, onClose }) {
           {loading && (
             <div className="chat-msg chat-msg-assistant">
               <div className="chat-msg-avatar">S</div>
-              <div className="chat-bubble chat-typing">
-                <span /><span /><span />
-              </div>
+              <div className="chat-bubble chat-typing"><span /><span /><span /></div>
             </div>
           )}
           {navChip && (
@@ -164,6 +159,26 @@ export default function ChatBot({ onNavigate, open, onClose }) {
           </button>
         </div>
       </div>
+
+      {/* Floating Action Button */}
+      <button
+        className={`chat-fab ${open ? 'chat-fab-active' : ''}`}
+        onClick={onToggle}
+        title="Ask Shri"
+      >
+        {open ? (
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        ) : (
+          <>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span className="chat-fab-label">Ask Shri</span>
+          </>
+        )}
+      </button>
     </>
   )
 }
