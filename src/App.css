@@ -22,6 +22,7 @@
   --amber-dim:    rgba(180,83,9,0.08);
   --sans:   -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
   --serif:  'Playfair Display', Georgia, 'Times New Roman', serif;
+  --display: 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
   --mono:   'SF Mono', ui-monospace, 'Cascadia Code', monospace;
   --radius:    12px;
   --radius-lg: 16px;
@@ -74,11 +75,11 @@ header {
 }
 .hero-eyebrow::before, .hero-eyebrow::after { content:''; display:block; width:28px; height:1px; background:var(--blue); opacity:0.4; }
 .hero h1 {
-  font-family: var(--serif);
-  font-size: clamp(2.4rem, 5.5vw, 3.8rem); font-weight: 600; line-height: 1.12;
-  color: var(--text); margin-bottom: 1.25rem; letter-spacing: -0.01em;
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 6vw, 4.2rem); font-weight: 700; line-height: 1.06;
+  color: var(--text); margin-bottom: 1.25rem; letter-spacing: 0.01em; text-transform: uppercase;
 }
-.hero h1 em { color: var(--blue); font-style: italic; }
+.hero h1 em { color: var(--blue); font-style: normal; font-weight: 800; }
 .hero-sub { font-family: var(--sans); font-size: 1.05rem; color: var(--text2); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
 .hero-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .hero-pill {
@@ -226,7 +227,7 @@ td.red   { color:var(--red);   font-weight:600; }
 footer {
   border-top: 1px solid var(--glass-border);
   padding: 1.5rem 2rem;
-  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  display: flex; flex-direction: column; gap: 0;
   background: rgba(245,245,247,0.8); backdrop-filter: blur(12px);
 }
 footer p { font-family:var(--sans); font-size: 12px; color: var(--text3); }
@@ -242,3 +243,28 @@ footer strong { color: var(--text2); font-weight: 500; }
   header { padding: 0 1.25rem; }
   .slider-row label { width: 90px; font-size: 10px; }
 }
+
+/* WHY OPTIONS SECTION */
+.why-section { margin-top: 1.5rem; }
+.why-header { display: flex; align-items: center; gap: 14px; margin-bottom: 1.25rem; }
+.why-icon { width: 42px; height: 42px; border-radius: 50%; background: var(--blue-dim); border: 1px solid rgba(26,86,219,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: var(--blue); flex-shrink: 0; }
+.why-title { font-family: var(--sans); font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+.why-tagline { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.why-story { background: var(--bg2); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 1.1rem 1.4rem; margin-bottom: 1rem; box-shadow: var(--shadow-sm); }
+.why-story p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+.why-choice { border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; background: var(--bg2); }
+.why-choice.bad { border-color: rgba(192,57,43,0.15); background: rgba(192,57,43,0.03); }
+.why-choice-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--red); margin-bottom: 8px; }
+.why-choice p { font-size: 13.5px; color: var(--text2); line-height: 1.65; }
+.why-solution { background: var(--blue-dim); border: 1px solid rgba(26,86,219,0.2); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; margin-top: 1rem; }
+.why-solution-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--blue); margin-bottom: 10px; }
+.why-solution p { font-size: 14px; color: var(--text2); line-height: 1.7; }
+
+/* FOOTER */
+.footer-main { display: flex; align-items: center; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 8px; margin-bottom: 1rem; }
+.footer-thanks { border-top: 1px solid var(--glass-border); padding-top: 1rem; width: 100%; }
+.thanks-text { font-size: 12px; color: var(--text2); line-height: 1.7; font-style: italic; }
+.thanks-text strong { color: var(--text); font-weight: 600; font-style: normal; }
+
+/* BLUE-DIM2 for quick ref card */
+.blue-dim2 { background: rgba(26,86,219,0.04); }

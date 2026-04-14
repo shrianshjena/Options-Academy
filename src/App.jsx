@@ -44,36 +44,65 @@ function Page01() {
       <div className="page-sub">Before options, you need to understand the asset underlying them.</div>
       <div className="card">
         <div className="card-title">Stocks — owning a piece of a company</div>
-        <p>When a company like Reliance Industries or TCS lists on the stock exchange, it divides itself into millions of small pieces called <strong style={{color:'var(--text)',fontWeight:600}}>shares</strong>. Buying a share means you own a tiny fraction of that company. If the company grows, your share is worth more. If it struggles, worth less.</p>
+        <p>When a company like Reliance Industries or HDFC Bank lists on the NSE, it divides itself into millions of small pieces called <strong style={{color:'var(--text)',fontWeight:600}}>shares</strong>. Buying a share means you own a tiny fraction of that company. If the company grows, your share is worth more. If it struggles, worth less.</p>
       </div>
       <div className="grid2">
         <div className="card">
           <Tag type="neutral">Price movement</Tag>
-          <div className="card-title">Stock at ₹100 today</div>
+          <div className="card-title">Nifty 50 today: ~23,800</div>
           <div className="metric-row">
-            <Metric label="If it rises to" val="₹120" color="green" />
-            <Metric label="Your gain" val="+₹20" color="green" />
+            <Metric label="If it rises to" val="24,200" color="green" />
+            <Metric label="Your gain" val="+400 pts" color="green" />
           </div>
           <div className="metric-row">
-            <Metric label="If it falls to" val="₹80" color="red" />
-            <Metric label="Your loss" val="-₹20" color="red" />
+            <Metric label="If it falls to" val="23,400" color="red" />
+            <Metric label="Your loss" val="-400 pts" color="red" />
           </div>
         </div>
         <div className="card">
           <Tag type="neutral">Key idea</Tag>
           <div className="card-title">Direct exposure</div>
-          <p>When you own a stock, every ₹1 move in price directly affects your investment. You have unlimited upside but can lose everything if the stock goes to zero.</p>
+          <p>When you own an index or stock, every point move directly affects your investment. You have unlimited upside but can lose everything if prices collapse.</p>
         </div>
       </div>
+
       <Divider />
-      <h3>Why options were invented</h3>
-      <div className="card">
-        <p>Imagine you own 100 shares of a company. You're worried the price might fall in the next 3 months. You could sell your shares — but you'd miss out if the price actually rises. Options were created to solve exactly this kind of problem. They give you <strong style={{color:'var(--text)',fontWeight:600}}>flexibility and control</strong> without forcing you to commit fully.</p>
-        <div className="pill-row" style={{marginTop:'12px'}}>
-          <span className="pill">Hedge your investments</span>
-          <span className="pill">Speculate with less capital</span>
-          <span className="pill">Generate extra income</span>
-          <span className="pill">Control risk precisely</span>
+
+      {/* ── WHY OPTIONS WERE INVENTED — enhanced section ── */}
+      <div className="why-section">
+        <div className="why-header">
+          <div className="why-icon">?</div>
+          <div>
+            <div className="why-title">Why were options invented?</div>
+            <div className="why-tagline">The problem that changed markets forever</div>
+          </div>
+        </div>
+
+        <div className="why-story">
+          <p>It is April 2026. You hold Nifty in your portfolio at 23,800. The market has been volatile — geopolitical tensions, FII outflows, crude oil rising. You're nervous it could drop to 22,500. But you also don't want to sell, because if things calm down, Nifty could easily run to 25,000.</p>
+          <p style={{marginTop:'10px'}}>You are stuck between two bad choices:</p>
+        </div>
+
+        <div className="grid2" style={{marginTop:'1rem'}}>
+          <div className="why-choice bad">
+            <div className="why-choice-label">Choice A — sell now</div>
+            <p>You exit your position. Safe from the fall — but if Nifty rallies to 25,000, you miss every point of that ₹1,200 gain per unit.</p>
+          </div>
+          <div className="why-choice bad">
+            <div className="why-choice-label">Choice B — hold and hope</div>
+            <p>You stay invested. If Nifty does crash to 22,500, you absorb the full ₹1,300 loss per unit with no protection.</p>
+          </div>
+        </div>
+
+        <div className="why-solution">
+          <div className="why-solution-label">Options were invented to give you a third choice</div>
+          <p>Pay a small, known premium — say ₹150 per unit — to <strong style={{color:'var(--text)',fontWeight:600}}>lock in the right to sell Nifty at 23,800</strong> anytime in the next 30 days. If it crashes, your losses are protected. If it rallies to 25,000, you simply don't use the right — and you keep the full gain. You only lose the ₹150 premium.</p>
+          <div className="pill-row" style={{marginTop:'14px'}}>
+            <span className="pill">Protect against a crash</span>
+            <span className="pill">Keep the upside open</span>
+            <span className="pill">Know your max loss upfront</span>
+            <span className="pill">Speculate with less capital</span>
+          </div>
         </div>
       </div>
     </>
@@ -95,10 +124,10 @@ function Page02() {
       <Divider />
       <h3>The 4 key terms you must know cold</h3>
       <div className="glossary-grid">
-        <div className="gitem"><div className="gt">Strike Price</div><div className="gd">The fixed price at which you can buy or sell the stock. Agreed upfront and never changes during the contract.</div></div>
+        <div className="gitem"><div className="gt">Strike Price</div><div className="gd">The fixed price at which you can buy or sell. For example, the Nifty 24,000 CE means the right to buy Nifty at 24,000.</div></div>
         <div className="gitem"><div className="gt">Premium</div><div className="gd">The price you pay to buy the option contract. As a buyer, this is your maximum possible loss — nothing more.</div></div>
-        <div className="gitem"><div className="gt">Expiry Date</div><div className="gd">The deadline. After this date, the option ceases to exist. In India (2026 onwards), typically the last Tuesday of each month.</div></div>
-        <div className="gitem"><div className="gt">Lot Size</div><div className="gd">Options trade in fixed lots — for example, 1 lot of Nifty = 65 units. You cannot buy a fraction of a lot.</div></div>
+        <div className="gitem"><div className="gt">Expiry Date</div><div className="gd">The deadline. In India (2026), Nifty monthly options expire on the last Tuesday of each month. After this, the contract ceases to exist.</div></div>
+        <div className="gitem"><div className="gt">Lot Size</div><div className="gd">Nifty options trade in fixed lots of 65 units per lot. You cannot buy a fraction of a lot.</div></div>
       </div>
       <Divider />
       <h3>Two types of options</h3>
@@ -106,12 +135,12 @@ function Page02() {
         <div className="card call">
           <Tag type="call">Call</Tag>
           <div className="card-title">CALL Option</div>
-          <p>Right to <strong style={{color:'var(--text)',fontWeight:600}}>buy</strong> the stock at the strike price. You profit when the price goes <strong style={{color:'var(--teal)',fontWeight:600}}>up</strong>.</p>
+          <p>Right to <strong style={{color:'var(--text)',fontWeight:600}}>buy</strong> at the strike price. You profit when Nifty goes <strong style={{color:'var(--teal)',fontWeight:600}}>up</strong>.</p>
         </div>
         <div className="card put">
           <Tag type="put">Put</Tag>
           <div className="card-title">PUT Option</div>
-          <p>Right to <strong style={{color:'var(--text)',fontWeight:600}}>sell</strong> the stock at the strike price. You profit when the price goes <strong style={{color:'var(--red)',fontWeight:600}}>down</strong>.</p>
+          <p>Right to <strong style={{color:'var(--text)',fontWeight:600}}>sell</strong> at the strike price. You profit when Nifty goes <strong style={{color:'var(--red)',fontWeight:600}}>down</strong>.</p>
         </div>
       </div>
     </>
@@ -122,41 +151,41 @@ function Page03() {
   return (
     <>
       <div className="page-title">Call options — betting on a rise</div>
-      <div className="page-sub">A call option gives you the right to BUY a stock at a fixed price.</div>
+      <div className="page-sub">A call option gives you the right to BUY Nifty at a fixed level.</div>
       <div className="card call">
-        <Tag type="call">Call Option</Tag>
+        <Tag type="call">Call Option — Nifty Example</Tag>
         <div className="card-title">The simple setup</div>
-        <p>You believe Stock XYZ (currently ₹500) will rise in the next month. Instead of buying the actual stock, you buy a <strong style={{color:'var(--teal)',fontWeight:600}}>call option</strong> with a strike price of ₹520, paying a premium of ₹15.</p>
+        <p>Nifty is at 23,800 on April 14, 2026. You believe it will rise above 24,000 before the last Tuesday of April expiry. You buy the <strong style={{color:'var(--teal)',fontWeight:600}}>24,000 CE (Call)</strong>, paying a premium of ₹120 per unit. Since 1 lot = 65 units, your total cost is ₹7,800.</p>
       </div>
       <div className="metric-row">
-        <Metric label="Current price" val="₹500" />
-        <Metric label="Strike price" val="₹520" color="blue" />
-        <Metric label="Premium paid" val="₹15" color="red" />
-        <Metric label="Breakeven" val="₹535" color="gold" />
+        <Metric label="Nifty spot" val="23,800" />
+        <Metric label="Strike (CE)" val="24,000" color="blue" />
+        <Metric label="Premium paid" val="₹120/unit" color="red" />
+        <Metric label="Breakeven" val="24,120" color="gold" />
       </div>
       <Analogy>
-        You paid ₹15 (premium) for the right to buy at ₹520. So the stock must exceed ₹520 + ₹15 = <strong>₹535</strong> for you to actually profit. Below ₹535, your premium erodes. Above ₹535, every extra rupee is your gain.
+        You paid ₹120 for the right to buy at 24,000. So Nifty must rise above 24,000 + 120 = <strong>24,120</strong> for you to profit. Below 24,120, your premium erodes. Above 24,120, every extra point is your gain.
       </Analogy>
       <Divider />
       <h3>What happens on expiry day?</h3>
-      <Scenario type="win" label="Scenario 1 — Stock rises to ₹580">
-        You exercise your right. Buy at ₹520, stock worth ₹580. <strong className="g">Profit = ₹580 − ₹520 − ₹15 = +₹45 per share</strong>
+      <Scenario type="win" label="Scenario 1 — Nifty rallies to 24,500">
+        You exercise your right. Gain = 24,500 − 24,000 − 120 = <strong className="g">+380 points × 65 units = +₹24,700 profit</strong>
       </Scenario>
-      <Scenario type="flat" label="Scenario 2 — Stock stays at ₹510">
-        No point buying at ₹520 when market is ₹510. Option expires worthless. You lose only the premium: <strong className="r">−₹15 per share</strong>
+      <Scenario type="flat" label="Scenario 2 — Nifty stays at 23,950">
+        No point buying at 24,000 when market is 23,950. Option expires worthless. Loss = premium paid: <strong className="r">−₹120 × 65 = −₹7,800</strong>
       </Scenario>
-      <Scenario type="lose" label="Scenario 3 — Stock falls to ₹450">
-        Option expires worthless. You walk away. Loss is always capped at premium paid: <strong className="r">−₹15 per share</strong>
+      <Scenario type="lose" label="Scenario 3 — Nifty falls to 23,200">
+        Option expires worthless. You walk away. Loss is always capped at premium: <strong className="r">−₹7,800 maximum</strong>
       </Scenario>
       <Divider />
       <h3>The key asymmetry</h3>
       <div className="card">
         <div className="pill-row">
-          <span className="pill">Max loss = ₹15 (known, fixed)</span>
+          <span className="pill">Max loss = ₹7,800 per lot (known, fixed)</span>
           <span className="pill">Max profit = unlimited</span>
-          <span className="pill">Profit above ₹535</span>
+          <span className="pill">Profit above Nifty 24,120</span>
         </div>
-        <p style={{marginTop:'10px'}}>This asymmetry is options' core power — you risk a small, known amount (₹15) to gain potentially unlimited upside if the stock surges.</p>
+        <p style={{marginTop:'10px'}}>This asymmetry is options' core power — you risk a small, known amount (₹7,800) to gain potentially unlimited upside if Nifty surges.</p>
       </div>
     </>
   )
@@ -166,82 +195,82 @@ function Page04() {
   return (
     <>
       <div className="page-title">Put options — betting on a fall</div>
-      <div className="page-sub">A put option gives you the right to SELL a stock at a fixed price.</div>
+      <div className="page-sub">A put option gives you the right to SELL Nifty at a fixed level.</div>
       <div className="card put">
-        <Tag type="put">Put Option</Tag>
+        <Tag type="put">Put Option — Nifty Example</Tag>
         <div className="card-title">The simple setup</div>
-        <p>You believe Stock XYZ (currently ₹500) will fall in the next month. You buy a <strong style={{color:'var(--red)',fontWeight:600}}>put option</strong> with a strike price of ₹480, paying a premium of ₹12.</p>
+        <p>Nifty is at 23,800. You're worried about a correction and buy the <strong style={{color:'var(--red)',fontWeight:600}}>23,500 PE (Put)</strong>, paying a premium of ₹100 per unit. Total cost for 1 lot: ₹6,500.</p>
       </div>
       <div className="metric-row">
-        <Metric label="Current price" val="₹500" />
-        <Metric label="Strike price" val="₹480" color="blue" />
-        <Metric label="Premium paid" val="₹12" color="red" />
-        <Metric label="Breakeven" val="₹468" color="gold" />
+        <Metric label="Nifty spot" val="23,800" />
+        <Metric label="Strike (PE)" val="23,500" color="blue" />
+        <Metric label="Premium paid" val="₹100/unit" color="red" />
+        <Metric label="Breakeven" val="23,400" color="gold" />
       </div>
       <Analogy>
-        You paid ₹12 for the right to sell at ₹480. The stock must fall below ₹480 − ₹12 = <strong>₹468</strong> for you to profit. Every rupee below ₹468 is your gain.
+        You paid ₹100 for the right to sell at 23,500. Nifty must fall below 23,500 − 100 = <strong>23,400</strong> for you to profit. Every point below 23,400 is your gain.
       </Analogy>
       <Divider />
       <h3>What happens on expiry day?</h3>
-      <Scenario type="win" label="Scenario 1 — Stock falls to ₹420">
-        You exercise your right. Sell at ₹480, stock worth only ₹420. <strong className="g">Profit = ₹480 − ₹420 − ₹12 = +₹48 per share</strong>
+      <Scenario type="win" label="Scenario 1 — Nifty falls to 22,800">
+        Gain = 23,500 − 22,800 − 100 = <strong className="g">+600 points × 65 units = +₹39,000 profit</strong>
       </Scenario>
-      <Scenario type="flat" label="Scenario 2 — Stock stays at ₹490">
-        No point selling at ₹480 when market is ₹490. Option expires worthless: <strong className="r">−₹12 per share</strong>
+      <Scenario type="flat" label="Scenario 2 — Nifty stays at 23,600">
+        No point selling at 23,500 when market is 23,600. Option expires worthless: <strong className="r">−₹100 × 65 = −₹6,500</strong>
       </Scenario>
-      <Scenario type="lose" label="Scenario 3 — Stock rises to ₹560">
-        Option expires worthless. You lose only the premium: <strong className="r">−₹12 per share</strong>
+      <Scenario type="lose" label="Scenario 3 — Nifty rises to 24,500">
+        Option expires worthless. Loss capped at premium: <strong className="r">−₹6,500 maximum</strong>
       </Scenario>
       <Divider />
-      <h3>The added use case — insurance</h3>
+      <h3>The added use case — portfolio insurance</h3>
       <div className="card">
         <div className="pill-row">
-          <span className="pill">Max loss = ₹12 (known, fixed)</span>
-          <span className="pill">Max profit ≈ strike price</span>
-          <span className="pill">Profit below ₹468</span>
+          <span className="pill">Max loss = ₹6,500 per lot (known, fixed)</span>
+          <span className="pill">Max profit grows as Nifty falls</span>
+          <span className="pill">Profit below Nifty 23,400</span>
         </div>
-        <p style={{marginTop:'10px'}}>Puts are also used as <strong style={{color:'var(--text)',fontWeight:600}}>portfolio insurance</strong>. If you already own a stock, a put protects you if prices crash — like a fire insurance policy for your investment.</p>
+        <p style={{marginTop:'10px'}}>Puts are also used as <strong style={{color:'var(--text)',fontWeight:600}}>portfolio insurance</strong>. If you hold Nifty ETFs or stocks, a put protects you from a market crash — exactly like the scenario described in Chapter 1.</p>
       </div>
     </>
   )
 }
 
 function CallCalc() {
-  const [strike, setStrike] = useState(520)
-  const [prem, setPrem] = useState(15)
-  const [expiry, setExpiry] = useState(560)
+  const [strike, setStrike] = useState(24000)
+  const [prem, setPrem] = useState(120)
+  const [expiry, setExpiry] = useState(24350)
   const buyPnl = expiry > strike ? (expiry - strike - prem) : -prem
   const sellPnl = -buyPnl
   return (
     <div className="calc-box">
-      <h3>Interactive: call payoff at expiry</h3>
+      <h3>Interactive: call payoff at expiry (per unit)</h3>
       <div className="slider-row">
-        <label>Strike price (₹)</label>
-        <input type="range" min="400" max="700" step="1" value={strike} onChange={e=>setStrike(+e.target.value)} />
-        <span className="sval">₹{strike}</span>
+        <label>Strike — CE (pts)</label>
+        <input type="range" min="22000" max="26000" step="50" value={strike} onChange={e=>setStrike(+e.target.value)} />
+        <span className="sval">{strike}</span>
       </div>
       <div className="slider-row">
-        <label>Premium (₹)</label>
-        <input type="range" min="5" max="80" step="1" value={prem} onChange={e=>setPrem(+e.target.value)} />
+        <label>Premium (₹/unit)</label>
+        <input type="range" min="10" max="500" step="5" value={prem} onChange={e=>setPrem(+e.target.value)} />
         <span className="sval">₹{prem}</span>
       </div>
       <div className="slider-row">
-        <label>Expiry price (₹)</label>
-        <input type="range" min="350" max="800" step="1" value={expiry} onChange={e=>setExpiry(+e.target.value)} />
-        <span className="sval">₹{expiry}</span>
+        <label>Nifty at expiry</label>
+        <input type="range" min="20000" max="27000" step="50" value={expiry} onChange={e=>setExpiry(+e.target.value)} />
+        <span className="sval">{expiry}</span>
       </div>
       <div className="result-row">
         <div className="result-box">
           <div className="rl">Buy Call P&L</div>
-          <div className={`rv ${buyPnl>=0?'green':'red'}`}>{buyPnl>=0?'+':''}{buyPnl} / share</div>
+          <div className={`rv ${buyPnl>=0?'green':'red'}`}>{buyPnl>=0?'+':''}{buyPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Sell Call P&L</div>
-          <div className={`rv ${sellPnl>=0?'green':'red'}`}>{sellPnl>=0?'+':''}{sellPnl} / share</div>
+          <div className={`rv ${sellPnl>=0?'green':'red'}`}>{sellPnl>=0?'+':''}{sellPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Breakeven</div>
-          <div className="rv">₹{strike + prem}</div>
+          <div className="rv">{strike + prem}</div>
         </div>
       </div>
     </div>
@@ -256,7 +285,7 @@ function Page05() {
       <div className="card call">
         <Tag type="buy">Buy Call — Long Call</Tag>
         <div className="card-title">You pay premium → you hold the right</div>
-        <p>You believe the stock will rise sharply. Your risk is limited to the premium. Your reward is theoretically unlimited. You are in control — you decide whether to exercise or not.</p>
+        <p>You believe Nifty will rise sharply before expiry. Your risk is limited to the premium. Your reward is theoretically unlimited. You are in control — you decide whether to exercise or not.</p>
         <div className="metric-row" style={{marginTop:'12px'}}>
           <Metric label="Outlook" val="Bullish ↑" color="green" />
           <Metric label="Max loss" val="Premium" color="red" />
@@ -266,11 +295,11 @@ function Page05() {
       <div className="card sell">
         <Tag type="sell">Sell Call — Short Call</Tag>
         <div className="card-title">You collect premium → you carry the obligation</div>
-        <p>You sell someone else a call option and <strong style={{color:'var(--text)',fontWeight:600}}>collect</strong> the premium upfront. But now you are <em>obligated</em> to sell them the stock at the strike price if they exercise. If the stock surges, your loss can be unlimited.</p>
+        <p>You sell someone else a call option and <strong style={{color:'var(--text)',fontWeight:600}}>collect</strong> the premium upfront. But now you are <em>obligated</em> to settle at the strike price if the buyer exercises. If Nifty surges well above your strike, your loss can be very large.</p>
         <div className="metric-row" style={{marginTop:'12px'}}>
           <Metric label="Outlook" val="Bearish / Flat ↓→" color="red" />
           <Metric label="Max gain" val="Premium" color="green" />
-          <Metric label="Max loss" val="Unlimited" color="red" />
+          <Metric label="Max loss" val="Very large" color="red" />
         </div>
       </div>
       <Divider />
@@ -280,41 +309,41 @@ function Page05() {
 }
 
 function PutCalc() {
-  const [strike, setStrike] = useState(480)
-  const [prem, setPrem] = useState(12)
-  const [expiry, setExpiry] = useState(430)
+  const [strike, setStrike] = useState(23500)
+  const [prem, setPrem] = useState(100)
+  const [expiry, setExpiry] = useState(23100)
   const buyPnl = expiry < strike ? (strike - expiry - prem) : -prem
   const sellPnl = -buyPnl
   return (
     <div className="calc-box">
-      <h3>Interactive: put payoff at expiry</h3>
+      <h3>Interactive: put payoff at expiry (per unit)</h3>
       <div className="slider-row">
-        <label>Strike price (₹)</label>
-        <input type="range" min="300" max="700" step="1" value={strike} onChange={e=>setStrike(+e.target.value)} />
-        <span className="sval">₹{strike}</span>
+        <label>Strike — PE (pts)</label>
+        <input type="range" min="20000" max="26000" step="50" value={strike} onChange={e=>setStrike(+e.target.value)} />
+        <span className="sval">{strike}</span>
       </div>
       <div className="slider-row">
-        <label>Premium (₹)</label>
-        <input type="range" min="5" max="80" step="1" value={prem} onChange={e=>setPrem(+e.target.value)} />
+        <label>Premium (₹/unit)</label>
+        <input type="range" min="10" max="500" step="5" value={prem} onChange={e=>setPrem(+e.target.value)} />
         <span className="sval">₹{prem}</span>
       </div>
       <div className="slider-row">
-        <label>Expiry price (₹)</label>
-        <input type="range" min="200" max="700" step="1" value={expiry} onChange={e=>setExpiry(+e.target.value)} />
-        <span className="sval">₹{expiry}</span>
+        <label>Nifty at expiry</label>
+        <input type="range" min="20000" max="27000" step="50" value={expiry} onChange={e=>setExpiry(+e.target.value)} />
+        <span className="sval">{expiry}</span>
       </div>
       <div className="result-row">
         <div className="result-box">
           <div className="rl">Buy Put P&L</div>
-          <div className={`rv ${buyPnl>=0?'green':'red'}`}>{buyPnl>=0?'+':''}{buyPnl} / share</div>
+          <div className={`rv ${buyPnl>=0?'green':'red'}`}>{buyPnl>=0?'+':''}{buyPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Sell Put P&L</div>
-          <div className={`rv ${sellPnl>=0?'green':'red'}`}>{sellPnl>=0?'+':''}{sellPnl} / share</div>
+          <div className={`rv ${sellPnl>=0?'green':'red'}`}>{sellPnl>=0?'+':''}{sellPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Breakeven</div>
-          <div className="rv">₹{strike - prem}</div>
+          <div className="rv">{strike - prem}</div>
         </div>
       </div>
     </div>
@@ -329,21 +358,21 @@ function Page06() {
       <div className="card put">
         <Tag type="buy">Buy Put — Long Put</Tag>
         <div className="card-title">You pay premium → you hold the right to sell</div>
-        <p>You believe the stock will fall. If it crashes, you profit handsomely. If it rises or stays flat, you lose only the premium — a capped, known loss. Puts also serve as portfolio insurance for existing stock positions.</p>
+        <p>You believe Nifty will fall. If it crashes, you profit significantly. If it rises or stays flat, you lose only the premium — a capped, known loss. Buying puts on Nifty is also the most common way to hedge an equity portfolio.</p>
         <div className="metric-row" style={{marginTop:'12px'}}>
           <Metric label="Outlook" val="Bearish ↓" color="red" />
           <Metric label="Max loss" val="Premium" color="red" />
-          <Metric label="Max gain" val="Strike − 0" color="green" />
+          <Metric label="Max gain" val="Strike × Fall" color="green" />
         </div>
       </div>
       <div className="card sell">
         <Tag type="sell">Sell Put — Short Put</Tag>
         <div className="card-title">You collect premium → you carry the obligation to buy</div>
-        <p>You sell a put option and collect the premium now. But you are <em>obligated</em> to buy their stock at the strike price if they exercise. If the stock crashes, you're forced to buy at a high price — a potentially large loss.</p>
+        <p>You sell a put option and collect the premium now. But you are <em>obligated</em> to settle at the strike if the buyer exercises. If Nifty crashes hard, the loss can be very large — you're effectively agreeing to absorb the fall.</p>
         <div className="metric-row" style={{marginTop:'12px'}}>
           <Metric label="Outlook" val="Bullish / Flat ↑→" color="green" />
           <Metric label="Max gain" val="Premium" color="green" />
-          <Metric label="Max loss" val="Strike × Lots" color="red" />
+          <Metric label="Max loss" val="Strike × Fall" color="red" />
         </div>
       </div>
       <Divider />
@@ -356,7 +385,7 @@ function Page07() {
   return (
     <>
       <div className="page-title">Quick reference</div>
-      <div className="page-sub">All four strategies, their risk profiles, and breakeven formulas.</div>
+      <div className="page-sub">All four strategies, risk profiles, and breakeven formulas — Nifty context.</div>
       <div className="card" style={{padding:'0', overflow:'hidden'}}>
         <table className="summary-table">
           <thead>
@@ -376,7 +405,7 @@ function Page07() {
               <td><span className="badge a">Sell Call</span></td>
               <td>Bearish / Flat ↓→</td>
               <td className="green">Premium</td>
-              <td className="red">Unlimited</td>
+              <td className="red">Very large</td>
               <td>Strike + Premium</td>
             </tr>
             <tr>
@@ -396,15 +425,23 @@ function Page07() {
           </tbody>
         </table>
       </div>
+      <div className="card" style={{marginTop:'1rem', background:'var(--blue-dim2)', borderColor:'rgba(26,86,219,0.15)'}}>
+        <div className="card-title" style={{fontSize:'12px', textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--blue)'}}>Nifty specifics — April 2026</div>
+        <div className="metric-row">
+          <Metric label="Nifty spot" val="~23,800" />
+          <Metric label="Lot size" val="65 units" color="blue" />
+          <Metric label="Monthly expiry" val="Last Tuesday" color="blue" />
+        </div>
+      </div>
       <Divider />
       <h3>The golden rules</h3>
       <div className="card">
         <div className="pill-row" style={{flexDirection:'column', alignItems:'flex-start', gap:'6px'}}>
           <span className="pill">Buyers pay premium. Sellers collect premium.</span>
           <span className="pill">Buyers hold rights. Sellers hold obligations.</span>
-          <span className="pill">Call buyers profit when price rises. Put buyers profit when price falls.</span>
-          <span className="pill">Buyers have limited, known risk. Sellers can face unlimited risk.</span>
-          <span className="pill">Most traders sell the option before expiry — you don't have to wait.</span>
+          <span className="pill">Call buyers profit when Nifty rises. Put buyers profit when it falls.</span>
+          <span className="pill">Buyers have limited, known risk. Sellers can face very large losses.</span>
+          <span className="pill">Most traders exit the option before expiry — you rarely need to wait.</span>
         </div>
       </div>
       <Divider />
@@ -439,12 +476,12 @@ export default function App() {
       <div className="hero">
         <div className="hero-eyebrow">A structured guide to options trading</div>
         <h1>Learn options trading<br />from <em>absolute zero</em></h1>
-        <p className="hero-sub">No jargon, no overwhelm. Clear concepts, real numbers, Indian market context — built so the ideas actually stick.</p>
+        <p className="hero-sub">No jargon, no overwhelm. Clear concepts, Indian market context — built so the ideas actually stick.</p>
         <div className="hero-pills">
           <span className="hero-pill">Calls &amp; Puts</span>
           <span className="hero-pill">Buying &amp; Selling</span>
           <span className="hero-pill">Interactive Calculators</span>
-          <span className="hero-pill">₹ INR Examples</span>
+          <span className="hero-pill">₹ Examples</span>
         </div>
       </div>
 
@@ -466,13 +503,13 @@ export default function App() {
 
         <div style={{display:'flex', justifyContent:'space-between', marginTop:'2.5rem', gap:'8px'}}>
           {active > 0 && (
-            <button className="nav-btn prev" onClick={()=>setActive(a=>a-1)}>
+            <button className="nav-btn" onClick={()=>setActive(a=>a-1)}>
               ← {CHAPTERS[active-1].label}
             </button>
           )}
           <div style={{flex:1}} />
           {active < CHAPTERS.length-1 && (
-            <button className="nav-btn next" onClick={()=>setActive(a=>a+1)}>
+            <button className="nav-btn" onClick={()=>setActive(a=>a+1)}>
               {CHAPTERS[active+1].label} →
             </button>
           )}
@@ -480,8 +517,15 @@ export default function App() {
       </main>
 
       <footer>
-        <p>Options Academy · For educational purposes only</p>
-        <p>Built by <strong>Shriansh Jena</strong></p>
+        <div className="footer-main">
+          <p>Options Academy · For educational purposes only</p>
+          <p>Built by <strong>Shriansh Jena</strong></p>
+        </div>
+        <div className="footer-thanks">
+          <p className="thanks-text">
+            A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This project would not exist without you.
+          </p>
+        </div>
       </footer>
     </div>
   )
