@@ -468,15 +468,7 @@ export default function App() {
     <div className="app">
       <header>
         <span className="logo">Options <span>Academy</span></span>
-        <div className="header-right">
-          <span className="header-byline">by Shriansh Jena</span>
-          <button className="header-chat-btn" onClick={() => setChatOpen(o => !o)}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{flexShrink:0}}>
-              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Ask Shri
-          </button>
-        </div>
+        <span className="header-byline">by Shriansh Jena</span>
       </header>
 
       <div className="hero">
@@ -524,14 +516,17 @@ export default function App() {
 
       <footer>
         <div className="footer-top">
-          <span className="footer-brand">Options Academy</span>
+          <span className="footer-brand">
+            Options <span className="footer-brand-blue">Academy</span>
+            <span className="footer-brand-sep">·</span>
+            <span className="footer-brand-edu">For educational purposes only</span>
+          </span>
           <span className="footer-built">Built by <strong>Shriansh Jena</strong></span>
         </div>
         <div className="footer-divider" />
         <p className="footer-thanks">
-          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This project would not exist without you.
+          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This platform would not exist without you.
         </p>
-        <p className="footer-note">For educational purposes only</p>
       </footer>
 
       <ChatBot onNavigate={setActive} open={chatOpen} onToggle={() => setChatOpen(o => !o)} />
