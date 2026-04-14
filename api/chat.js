@@ -1,5 +1,5 @@
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
-const MODEL = 'llama3-8b-8192'
+const MODEL = 'llama-3.1-8b-instant'
 const MAX_TOKENS = 320
 const MAX_MESSAGES_IN_HISTORY = 8
 

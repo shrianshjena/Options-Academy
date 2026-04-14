@@ -460,6 +460,7 @@ const PAGES = [Page01, Page02, Page03, Page04, Page05, Page06, Page07]
 
 export default function App() {
   const [active, setActive] = useState(0)
+  const [chatOpen, setChatOpen] = useState(false)
   const Page = PAGES[active]
   const progress = ((active + 1) / PAGES.length) * 100
 
@@ -467,7 +468,15 @@ export default function App() {
     <div className="app">
       <header>
         <span className="logo">Options <span>Academy</span></span>
-        <span className="header-byline">by Shriansh Jena</span>
+        <div className="header-right">
+          <span className="header-byline">by Shriansh Jena</span>
+          <button className="header-chat-btn" onClick={() => setChatOpen(o => !o)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{flexShrink:0}}>
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Ask Shri
+          </button>
+        </div>
       </header>
 
       <div className="hero">
@@ -514,18 +523,19 @@ export default function App() {
       </main>
 
       <footer>
-        <div className="footer-top">
+        <div className="footer-row">
           <span className="footer-brand">Options Academy</span>
+          <span className="footer-sep">·</span>
+          <span className="footer-edu">For educational purposes only</span>
+          <span className="footer-spacer" />
           <span className="footer-built">Built by <strong>Shriansh Jena</strong></span>
         </div>
-        <div className="footer-divider" />
         <p className="footer-thanks">
-          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This project would not exist without you.
+          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team for their time, patience, and dedication in teaching and guiding this learning experience.
         </p>
-        <p className="footer-note">For educational purposes only · NSE · India · April 2026</p>
       </footer>
 
-      <ChatBot onNavigate={setActive} />
+      <ChatBot onNavigate={setActive} open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   )
 }

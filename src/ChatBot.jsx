@@ -26,8 +26,7 @@ function parseNav(text) {
   return { nav: null, clean: text }
 }
 
-export default function ChatBot({ onNavigate }) {
-  const [open, setOpen] = useState(false)
+export default function ChatBot({ onNavigate, open, onClose }) {
   const [messages, setMessages] = useState([WELCOME])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -102,24 +101,19 @@ export default function ChatBot({ onNavigate }) {
     }
   }
 
-  const cooldownActive = Date.now() - lastSent < COOLDOWN_MS
   const limitReached = msgCount >= SESSION_LIMIT
 
   return (
     <>
-      {open && (
-        <div className="chat-backdrop" onClick={() => setOpen(false)} />
-      )}
+      {open && <div className="chat-backdrop" onClick={onClose} />}
+
       <div className={`chat-panel ${open ? 'chat-panel-open' : ''}`}>
         <div className="chat-header">
           <div className="chat-header-left">
             <div className="chat-avatar">S</div>
-            <div>
-              <div className="chat-name">Shri</div>
-              <div className="chat-status">Options tutor · Nifty focused</div>
-            </div>
+            <div className="chat-name">Shri — Options Tutor</div>
           </div>
-          <button className="chat-close" onClick={() => setOpen(false)}>✕</button>
+          <button className="chat-close" onClick={onClose} title="Close">✕</button>
         </div>
 
         <div className="chat-messages">
@@ -162,7 +156,7 @@ export default function ChatBot({ onNavigate }) {
           <button
             className="chat-send"
             onClick={send}
-            disabled={loading || !input.trim() || cooldownActive || limitReached}
+            disabled={loading || !input.trim() || limitReached}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M14 8L2 2l2 6-2 6 12-6z" fill="currentColor"/>
@@ -170,23 +164,6 @@ export default function ChatBot({ onNavigate }) {
           </button>
         </div>
       </div>
-
-      <button
-        className={`chat-fab ${open ? 'chat-fab-active' : ''}`}
-        onClick={() => setOpen(o => !o)}
-        title="Ask Shri"
-      >
-        {open ? (
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        )}
-        {!open && <span className="chat-fab-label">Ask Shri</span>}
-      </button>
     </>
   )
 }

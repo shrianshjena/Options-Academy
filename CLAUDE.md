@@ -107,7 +107,7 @@ A heartfelt thank you to **Deepak Singh**, **Sanjay Kumar**, and the entire **De
 ### API & Rate Limiting
 | Setting | Value |
 |---------|-------|
-| Model | `llama3-8b-8192` (Groq free tier) |
+| Model | `llama-3.1-8b-instant` (Groq free tier) |
 | Max tokens/response | 320 |
 | History window | Last 8 messages (4 exchanges) |
 | Temperature | 0.5 |
