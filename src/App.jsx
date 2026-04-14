@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import ChatBot from './ChatBot.jsx'
 
 const CHAPTERS = [
   { num: '01', label: 'The Basics' },
@@ -17,6 +18,7 @@ function Metric({ label, val, color }) {
     <div className="metric">
       <div className="mlabel">{label}</div>
       <div className={`mval ${color || ''}`}>{val}</div>
+      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -25,6 +27,7 @@ function Analogy({ children }) {
     <div className="analogy">
       <div className="alabel">Real-life analogy</div>
       <p>{children}</p>
+      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -33,6 +36,7 @@ function Scenario({ type, label, children }) {
     <div className={`scenario ${type}`}>
       <div className="slabel">{label}</div>
       <p>{children}</p>
+      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -273,6 +277,7 @@ function CallCalc() {
           <div className="rv">{strike + prem}</div>
         </div>
       </div>
+      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -346,6 +351,7 @@ function PutCalc() {
           <div className="rv">{strike - prem}</div>
         </div>
       </div>
+      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -467,10 +473,7 @@ export default function App() {
     <div className="app">
       <header>
         <span className="logo">Options <span>Academy</span></span>
-        <div className="header-right">
-          <span className="header-tag">NSE · Indian Markets</span>
-          <span className="header-byline">by Shriansh Jena</span>
-        </div>
+        <span className="header-byline">by Shriansh Jena</span>
       </header>
 
       <div className="hero">
@@ -517,16 +520,17 @@ export default function App() {
       </main>
 
       <footer>
-        <div className="footer-main">
-          <p>Options Academy · For educational purposes only</p>
-          <p>Built by <strong>Shriansh Jena</strong></p>
+        <div className="footer-top">
+          <span className="footer-brand">Options Academy</span>
+          <span className="footer-built">Built by <strong>Shriansh Jena</strong></span>
         </div>
-        <div className="footer-thanks">
-          <p className="thanks-text">
-            A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This project would not exist without you.
-          </p>
-        </div>
+        <div className="footer-divider" />
+        <p className="footer-thanks">
+          A heartfelt thank you to <strong>Deepak Singh</strong>, <strong>Sanjay Kumar</strong>, and the entire <strong>Deepsea Finvest</strong> team — for their time, patience, and dedication in teaching and guiding this learning experience. This project would not exist without you.
+        </p>
+        <p className="footer-note">For educational purposes only · NSE · India · April 2026</p>
       </footer>
+      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
