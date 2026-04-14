@@ -18,7 +18,6 @@ function Metric({ label, val, color }) {
     <div className="metric">
       <div className="mlabel">{label}</div>
       <div className={`mval ${color || ''}`}>{val}</div>
-      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -27,7 +26,6 @@ function Analogy({ children }) {
     <div className="analogy">
       <div className="alabel">Real-life analogy</div>
       <p>{children}</p>
-      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -36,7 +34,6 @@ function Scenario({ type, label, children }) {
     <div className={`scenario ${type}`}>
       <div className="slabel">{label}</div>
       <p>{children}</p>
-      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -72,7 +69,6 @@ function Page01() {
 
       <Divider />
 
-      {/* ── WHY OPTIONS WERE INVENTED — enhanced section ── */}
       <div className="why-section">
         <div className="why-header">
           <div className="why-icon">?</div>
@@ -250,34 +246,33 @@ function CallCalc() {
       <h3>Interactive: call payoff at expiry (per unit)</h3>
       <div className="slider-row">
         <label>Strike — CE (pts)</label>
-        <input type="range" min="22000" max="26000" step="50" value={strike} onChange={e=>setStrike(+e.target.value)} />
+        <input type="range" min="22000" max="26000" step="50" value={strike} onChange={e => setStrike(+e.target.value)} />
         <span className="sval">{strike}</span>
       </div>
       <div className="slider-row">
         <label>Premium (₹/unit)</label>
-        <input type="range" min="10" max="500" step="5" value={prem} onChange={e=>setPrem(+e.target.value)} />
+        <input type="range" min="10" max="500" step="5" value={prem} onChange={e => setPrem(+e.target.value)} />
         <span className="sval">₹{prem}</span>
       </div>
       <div className="slider-row">
         <label>Nifty at expiry</label>
-        <input type="range" min="20000" max="27000" step="50" value={expiry} onChange={e=>setExpiry(+e.target.value)} />
+        <input type="range" min="20000" max="27000" step="50" value={expiry} onChange={e => setExpiry(+e.target.value)} />
         <span className="sval">{expiry}</span>
       </div>
       <div className="result-row">
         <div className="result-box">
           <div className="rl">Buy Call P&L</div>
-          <div className={`rv ${buyPnl>=0?'green':'red'}`}>{buyPnl>=0?'+':''}{buyPnl} pts</div>
+          <div className={`rv ${buyPnl >= 0 ? 'green' : 'red'}`}>{buyPnl >= 0 ? '+' : ''}{buyPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Sell Call P&L</div>
-          <div className={`rv ${sellPnl>=0?'green':'red'}`}>{sellPnl>=0?'+':''}{sellPnl} pts</div>
+          <div className={`rv ${sellPnl >= 0 ? 'green' : 'red'}`}>{sellPnl >= 0 ? '+' : ''}{sellPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Breakeven</div>
           <div className="rv">{strike + prem}</div>
         </div>
       </div>
-      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -324,34 +319,33 @@ function PutCalc() {
       <h3>Interactive: put payoff at expiry (per unit)</h3>
       <div className="slider-row">
         <label>Strike — PE (pts)</label>
-        <input type="range" min="20000" max="26000" step="50" value={strike} onChange={e=>setStrike(+e.target.value)} />
+        <input type="range" min="20000" max="26000" step="50" value={strike} onChange={e => setStrike(+e.target.value)} />
         <span className="sval">{strike}</span>
       </div>
       <div className="slider-row">
         <label>Premium (₹/unit)</label>
-        <input type="range" min="10" max="500" step="5" value={prem} onChange={e=>setPrem(+e.target.value)} />
+        <input type="range" min="10" max="500" step="5" value={prem} onChange={e => setPrem(+e.target.value)} />
         <span className="sval">₹{prem}</span>
       </div>
       <div className="slider-row">
         <label>Nifty at expiry</label>
-        <input type="range" min="20000" max="27000" step="50" value={expiry} onChange={e=>setExpiry(+e.target.value)} />
+        <input type="range" min="20000" max="27000" step="50" value={expiry} onChange={e => setExpiry(+e.target.value)} />
         <span className="sval">{expiry}</span>
       </div>
       <div className="result-row">
         <div className="result-box">
           <div className="rl">Buy Put P&L</div>
-          <div className={`rv ${buyPnl>=0?'green':'red'}`}>{buyPnl>=0?'+':''}{buyPnl} pts</div>
+          <div className={`rv ${buyPnl >= 0 ? 'green' : 'red'}`}>{buyPnl >= 0 ? '+' : ''}{buyPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Sell Put P&L</div>
-          <div className={`rv ${sellPnl>=0?'green':'red'}`}>{sellPnl>=0?'+':''}{sellPnl} pts</div>
+          <div className={`rv ${sellPnl >= 0 ? 'green' : 'red'}`}>{sellPnl >= 0 ? '+' : ''}{sellPnl} pts</div>
         </div>
         <div className="result-box">
           <div className="rl">Breakeven</div>
           <div className="rv">{strike - prem}</div>
         </div>
       </div>
-      <ChatBot onNavigate={setActive} />
     </div>
   )
 }
@@ -431,7 +425,7 @@ function Page07() {
           </tbody>
         </table>
       </div>
-      <div className="card" style={{marginTop:'1rem', background:'var(--blue-dim2)', borderColor:'rgba(26,86,219,0.15)'}}>
+      <div className="card" style={{marginTop:'1rem', background:'rgba(26,86,219,0.04)', borderColor:'rgba(26,86,219,0.15)'}}>
         <div className="card-title" style={{fontSize:'12px', textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--blue)'}}>Nifty specifics — April 2026</div>
         <div className="metric-row">
           <Metric label="Nifty spot" val="~23,800" />
@@ -491,7 +485,7 @@ export default function App() {
       <main className="content">
         <nav className="chapter-nav">
           {CHAPTERS.map((ch, i) => (
-            <button key={i} className={`ch-btn ${active===i?'active':''}`} onClick={()=>setActive(i)}>
+            <button key={i} className={`ch-btn ${active === i ? 'active' : ''}`} onClick={() => setActive(i)}>
               <span className="ch-num">{ch.num}</span>
               <span className="ch-label">{ch.label}</span>
             </button>
@@ -506,14 +500,14 @@ export default function App() {
 
         <div style={{display:'flex', justifyContent:'space-between', marginTop:'2.5rem', gap:'8px'}}>
           {active > 0 && (
-            <button className="nav-btn" onClick={()=>setActive(a=>a-1)}>
-              ← {CHAPTERS[active-1].label}
+            <button className="nav-btn" onClick={() => setActive(a => a - 1)}>
+              ← {CHAPTERS[active - 1].label}
             </button>
           )}
           <div style={{flex:1}} />
-          {active < CHAPTERS.length-1 && (
-            <button className="nav-btn" onClick={()=>setActive(a=>a+1)}>
-              {CHAPTERS[active+1].label} →
+          {active < CHAPTERS.length - 1 && (
+            <button className="nav-btn" onClick={() => setActive(a => a + 1)}>
+              {CHAPTERS[active + 1].label} →
             </button>
           )}
         </div>
@@ -530,6 +524,7 @@ export default function App() {
         </p>
         <p className="footer-note">For educational purposes only · NSE · India · April 2026</p>
       </footer>
+
       <ChatBot onNavigate={setActive} />
     </div>
   )
