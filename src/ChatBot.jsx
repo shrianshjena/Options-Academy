@@ -18,6 +18,18 @@ const WELCOME = {
   content: "Hi! I'm Shri, your options trading tutor. Ask me anything about options — calls, puts, premiums, strike prices, or how Nifty options work. Where would you like to start?",
 }
 
+function stripMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/^[-*+]\s+/gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    .replace(/`(.+?)`/g, '$1')
+    .replace(/\|/g, '')
+    .trim()
+}
+
 function parseNav(text) {
   const match = text.match(/\[NAV:(\d)\]/)
   if (match) {
@@ -73,7 +85,8 @@ export default function ChatBot({ onNavigate, open, onToggle }) {
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Error')
 
-      const { nav, clean } = parseNav(data.reply)
+      const stripped = stripMarkdown(data.reply)
+      const { nav, clean } = parseNav(stripped)
       setMessages(prev => [...prev, { role: 'assistant', content: clean }])
 
       if (nav !== null && CHAPTER_NAMES[nav]) {
@@ -99,8 +112,6 @@ export default function ChatBot({ onNavigate, open, onToggle }) {
 
   return (
     <>
-      {open && <div className="chat-backdrop" onClick={onToggle} />}
-
       <div className={`chat-panel ${open ? 'chat-panel-open' : ''}`}>
         <div className="chat-header">
           <div className="chat-header-left">
