@@ -518,10 +518,8 @@ export default function App() {
         <div className="footer-top">
           <span className="footer-brand">
             <span className="footer-brand-name">Options <span className="footer-brand-blue">Academy</span></span>
-            <span className="footer-brand-sep">·</span>
-            <span className="footer-brand-edu">For educational purposes only</span>
           </span>
-          <span className="footer-built">Built by <strong>Shriansh Jena</strong></span>
+          <span className="footer-built">For educational purposes only</span>
         </div>
         <div className="footer-divider" />
         <p className="footer-thanks">
