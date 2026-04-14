@@ -51,18 +51,11 @@ body {
 
 /* HEADER */
 header {
-  border-bottom: 1px solid var(--glass-border);
-  padding: 0 2rem;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 56px; position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 300;
-  background: rgba(245,245,247,0.94);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  /* layout & position handled by inline styles in JSX for guaranteed fixed behavior */
 }
 .logo { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
 .logo span { color: var(--blue); }
-.header-byline { font-family: var(--sans); font-size: 12.5px; font-weight: 400; color: var(--text3); letter-spacing: 0.04em; }
+.header-byline { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 15px; font-weight: 400; font-style: italic; color: var(--text2); letter-spacing: 0.02em; }
 
 /* HERO */
 .hero { padding: 5rem 2rem 4rem; max-width: 860px; margin: 0 auto; text-align: center; }
@@ -232,10 +225,11 @@ footer {
   display: flex; align-items: center; justify-content: space-between;
   margin-bottom: 1rem;
 }
-.footer-brand { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em; }
+.footer-brand { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--text); display: flex; align-items: baseline; gap: 8px; letter-spacing: -0.01em; }
+.footer-brand-name { font-family: var(--serif); font-size: 1.05rem; font-weight: 600; color: var(--text); white-space: nowrap; }
 .footer-brand-blue { color: var(--blue); }
-.footer-brand-sep { font-family: var(--sans); color: var(--text3); font-size: 12px; font-weight: 400; }
-.footer-brand-edu { font-family: var(--sans); color: var(--text3); font-size: 12px; }
+.footer-brand-sep { font-family: var(--sans); color: var(--text3); font-size: 13px; font-weight: 400; line-height: 1.6; }
+.footer-brand-edu { font-family: var(--sans); color: var(--text3); font-size: 12px; line-height: 1.6; }
 .footer-built { font-family: var(--sans); font-size: 12px; color: var(--text3); }
 .footer-built strong { color: var(--text2); font-weight: 600; }
 .footer-divider { border: none; border-top: 1px solid var(--glass-border); margin-bottom: 1rem; }
@@ -296,7 +290,7 @@ footer {
 
 .chat-panel {
   position: fixed; bottom: 88px; right: 28px; z-index: 199; /* sits above FAB */
-  width: 420px; max-height: 540px;
+  width: 390px; max-height: 530px;
   background: #fff; border-radius: 20px;
   border: 1px solid var(--glass-border);
   box-shadow: 0 8px 40px rgba(0,0,0,0.14), 0 2px 8px rgba(0,0,0,0.06);
@@ -342,7 +336,7 @@ footer {
   font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px;
 }
 .chat-bubble {
-  max-width: 310px; padding: 9px 12px; border-radius: 14px;
+  max-width: 280px; padding: 9px 12px; border-radius: 14px;
   font-size: 13px; line-height: 1.6; color: var(--text);
   background: var(--bg2); border: 1px solid var(--glass-border);
 }
@@ -396,3 +390,12 @@ footer {
   .chat-panel { width: calc(100vw - 32px); right: 16px; bottom: 88px; }
   .chat-fab { right: 16px; bottom: 20px; }
 }
+
+/* chat header actions */
+.chat-header-actions { display: flex; align-items: center; gap: 4px; }
+.chat-minimize {
+  background: none; border: none; cursor: pointer; color: var(--text3);
+  width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; transition: background .12s, color .12s;
+}
+.chat-minimize:hover { background: rgba(0,0,0,0.06); color: var(--text); }

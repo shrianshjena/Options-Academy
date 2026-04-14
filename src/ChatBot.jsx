@@ -121,7 +121,18 @@ export default function ChatBot({ onNavigate, open, onToggle }) {
               <div className="chat-status">Options tutor</div>
             </div>
           </div>
-          <button className="chat-close" onClick={onToggle} title="Close">✕</button>
+          <div className="chat-header-actions">
+            <button className="chat-minimize" onClick={onToggle} title="Minimize — history preserved">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 7h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            </button>
+            <button className="chat-close" onClick={onToggle} title="Close">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div className="chat-messages">

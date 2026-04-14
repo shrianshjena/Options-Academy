@@ -466,7 +466,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <header>
+      <header style={{position:'fixed',top:0,left:0,right:0,width:'100%',height:'56px',zIndex:9999,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 2rem',background:'rgba(245,245,247,0.96)',backdropFilter:'blur(20px) saturate(180%)',WebkitBackdropFilter:'blur(20px) saturate(180%)',borderBottom:'1px solid rgba(0,0,0,0.08)',boxShadow:'0 1px 0 rgba(0,0,0,0.06)'}}>
         <span className="logo">Options <span>Academy</span></span>
         <span className="header-byline">by Shriansh Jena</span>
       </header>
@@ -517,7 +517,7 @@ export default function App() {
       <footer>
         <div className="footer-top">
           <span className="footer-brand">
-            Options <span className="footer-brand-blue">Academy</span>
+            <span className="footer-brand-name">Options <span className="footer-brand-blue">Academy</span></span>
             <span className="footer-brand-sep">·</span>
             <span className="footer-brand-edu">For educational purposes only</span>
           </span>
