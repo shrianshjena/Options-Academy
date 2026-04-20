@@ -20,22 +20,51 @@ function checkRateLimit(ip) {
 async function fetchNiftyData() {
   try {
     const res = await fetch(
-      'https://query1.finance.yahoo.com/v8/finance/chart/%5ENSEI?interval=1d&range=5d',
+      'https://query1.finance.yahoo.com/v8/finance/chart/%5ENSEI?interval=1d&range=10d',
       { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(4000) }
     )
     if (!res.ok) return null
     const data = await res.json()
-    const meta = data?.chart?.result?.[0]?.meta
+    const result = data?.chart?.result?.[0]
+    const meta = result?.meta
     if (!meta) return null
-    const price = meta.regularMarketPrice
-    const prev  = meta.chartPreviousClose || meta.previousClose
-    const change = prev ? (price - prev) : null
+
+    const price    = meta.regularMarketPrice
+    const open     = meta.regularMarketOpen
+    const high     = meta.regularMarketDayHigh
+    const low      = meta.regularMarketDayLow
+    const isOpen   = meta.marketState === 'REGULAR'
+
+    // Derive previous trading day from the actual time-series timestamps
+    // so it correctly skips weekends and holidays (e.g. Friday close after a long weekend)
+    const timestamps = result.timestamp || []
+    const closes     = result.indicators?.quote?.[0]?.close || []
+    const todayUTC   = new Date().toDateString()
+
+    let prev = null
+    let prevDate = null
+
+    // Walk backwards through the series to find the last completed session
+    for (let i = timestamps.length - 1; i >= 0; i--) {
+      const ts = new Date(timestamps[i] * 1000)
+      if (ts.toDateString() === todayUTC) continue  // skip today's bar
+      if (closes[i] != null && closes[i] > 0) {
+        prev = closes[i]
+        prevDate = ts.toLocaleDateString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          weekday: 'long', day: 'numeric', month: 'short', year: 'numeric'
+        })
+        break
+      }
+    }
+
+    // Fallback to meta if series walk fails
+    if (!prev) prev = meta.chartPreviousClose || meta.previousClose
+
+    const change    = prev ? (price - prev) : null
     const changePct = prev ? ((price - prev) / prev * 100) : null
-    const open  = meta.regularMarketOpen
-    const high  = meta.regularMarketDayHigh
-    const low   = meta.regularMarketDayLow
-    const isOpen = meta.marketState === 'REGULAR'
-    return { price, prev, change, changePct, open, high, low, isOpen }
+
+    return { price, prev, prevDate, change, changePct, open, high, low, isOpen }
   } catch {
     return null
   }
