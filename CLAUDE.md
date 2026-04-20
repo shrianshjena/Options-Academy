@@ -33,9 +33,9 @@ A heartfelt thank you to **Deepak Singh**, **Sanjay Kumar**, and the entire **De
 | 4 | Buying & Selling Calls | Long call vs short call, risk profiles, interactive payoff calculator |
 | 5 | Buying & Selling Puts | Long put vs short put, risk profiles, interactive payoff calculator |
 | 6 | Quick Reference | Strategy table, Nifty specifics, golden rules, what's next |
+| 7 | ITM, ATM & OTM | Moneyness explained, Nifty examples, live interactive explorer |
 
 ### What's Taught Next (upcoming chapters)
-- ITM / ATM / OTM (moneyness)
 - Option Greeks — Delta, Theta, Vega, Gamma
 - Time decay and why it hurts buyers
 - Multi-leg strategies — straddles, spreads, strangles

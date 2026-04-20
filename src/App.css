@@ -399,3 +399,12 @@ footer {
   border-radius: 6px; transition: background .12s, color .12s;
 }
 .chat-minimize:hover { background: rgba(0,0,0,0.06); color: var(--text); }
+
+/* clickable next-item */
+.next-item-link {
+  background: var(--bg2); border: 1px solid rgba(26,86,219,0.25); border-radius: var(--radius);
+  padding: 11px 14px; font-family: var(--sans); font-size: 12px; font-weight: 500;
+  color: var(--blue); cursor: pointer; text-align: left; width: 100%;
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; box-shadow: var(--shadow-sm);
+}
+.next-item-link:hover { background: var(--blue-dim); box-shadow: var(--shadow); }

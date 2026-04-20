@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import ChatBot from './ChatBot.jsx'
 
 const CHAPTERS = [
@@ -9,6 +9,7 @@ const CHAPTERS = [
   { num: '05', label: 'Buying & Selling Calls' },
   { num: '06', label: 'Buying & Selling Puts' },
   { num: '07', label: 'Quick Reference' },
+  { num: '08', label: 'ITM, ATM & OTM' },
 ]
 
 function Tag({ type, children }) { return <span className={`tag ${type}`}>{children}</span> }
@@ -447,7 +448,7 @@ function Page07() {
       <Divider />
       <h3>What's next in your learning journey</h3>
       <div className="next-grid">
-        <div className="next-item">ITM / ATM / OTM — what do these mean? <span className="arrow">→</span></div>
+        <button className="next-item next-item-link" onClick={() => window._oa_nav && window._oa_nav(7)}>ITM / ATM / OTM — moneyness explained <span className="arrow">→</span></button>
         <div className="next-item">Option Greeks — Delta, Theta, Vega, Gamma <span className="arrow">→</span></div>
         <div className="next-item">Time decay and why it hurts buyers <span className="arrow">→</span></div>
         <div className="next-item">Multi-leg strategies — straddles, spreads, strangles <span className="arrow">→</span></div>
@@ -456,10 +457,147 @@ function Page07() {
   )
 }
 
-const PAGES = [Page01, Page02, Page03, Page04, Page05, Page06, Page07]
+function Page08() {
+  return (
+    <>
+      <div className="page-title">ITM, ATM &amp; OTM — moneyness</div>
+      <div className="page-sub">Where your strike sits relative to the market price determines everything.</div>
+
+      <div className="card">
+        <div className="card-title">The core idea — moneyness</div>
+        <p>Every option sits in one of three zones based on where the current Nifty price is relative to your strike price. This is called <strong style={{color:'var(--text)',fontWeight:600}}>moneyness</strong>. It tells you whether your option has real value right now, or whether it's still waiting for the market to move in your favour.</p>
+      </div>
+
+      <div className="grid2" style={{marginBottom:'1rem'}}>
+        <div className="card" style={{borderColor:'rgba(26,127,75,0.2)',background:'rgba(26,127,75,0.04)'}}>
+          <Tag type="call">ITM — In the Money</Tag>
+          <div className="card-title">Real value exists right now</div>
+          <p>If you exercised the option this instant, you would profit. The market has already moved your way.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="Call ITM when" val="Market > Strike" color="green" />
+            <Metric label="Put ITM when" val="Market < Strike" color="green" />
+          </div>
+        </div>
+        <div className="card" style={{borderColor:'rgba(180,83,9,0.2)',background:'rgba(180,83,9,0.04)'}}>
+          <Tag type="sell">ATM — At the Money</Tag>
+          <div className="card-title">Market is right at the strike</div>
+          <p>No intrinsic value, but maximum sensitivity. A small Nifty move has the biggest proportional effect here.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="Market price" val="≈ Strike" color="gold" />
+            <Metric label="Intrinsic value" val="₹0" />
+          </div>
+        </div>
+      </div>
+
+      <div className="card" style={{borderColor:'rgba(192,57,43,0.2)',background:'rgba(192,57,43,0.04)',marginBottom:'1.5rem'}}>
+        <Tag type="put">OTM — Out of the Money</Tag>
+        <div className="card-title">No real value yet — only time value</div>
+        <p>The market hasn't moved your way. The option is cheap because the probability of finishing profitable is lower. Most OTM options expire worthless.</p>
+        <div className="metric-row" style={{marginTop:'10px'}}>
+          <Metric label="Call OTM when" val="Market < Strike" color="red" />
+          <Metric label="Put OTM when" val="Market > Strike" color="red" />
+          <Metric label="Intrinsic value" val="₹0" color="red" />
+        </div>
+      </div>
+
+      <Analogy>
+        Imagine you hold a train ticket priced at ₹500 between two cities, but today the walk-up fare is ₹650. Your ticket is <strong>ITM</strong> — it's worth something right now. If the fare is exactly ₹500, you're <strong>ATM</strong>. If the fare drops to ₹380, your ticket is <strong>OTM</strong> — it's cheaper to just buy at the counter.
+      </Analogy>
+
+      <Divider />
+      <h3>Nifty examples — April 2026</h3>
+      <div className="card">
+        <p style={{marginBottom:'12px'}}>Nifty is at <strong style={{color:'var(--text)',fontWeight:600}}>23,800</strong>. Strike price: <strong style={{color:'var(--text)',fontWeight:600}}>24,000</strong>.</p>
+        <Scenario type="win" label="24,000 CE (Call) — is it ITM or OTM?">
+          Market (23,800) is <strong className="r">below</strong> strike (24,000). The call is <strong className="r">OTM</strong>. Nifty must rise above 24,000 before this call has intrinsic value.
+        </Scenario>
+        <Scenario type="lose" label="24,000 PE (Put) — is it ITM or OTM?">
+          Market (23,800) is <strong className="g">below</strong> strike (24,000). The put is <strong className="g">ITM</strong>. You could sell at 24,000 when the market is only 23,800 — real value exists.
+        </Scenario>
+      </div>
+
+      <Divider />
+      <h3>The live explorer</h3>
+      <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Drag both sliders to see moneyness update live for calls and puts simultaneously.</p>
+
+      <div className="calc-box">
+        <MoneynessTool />
+      </div>
+
+      <Divider />
+      <h3>Why moneyness matters when buying</h3>
+      <div className="card">
+        <div className="pill-row" style={{flexDirection:'column',alignItems:'flex-start',gap:'6px'}}>
+          <span className="pill">ITM options cost more — you pay for the embedded value, lower risk of full loss</span>
+          <span className="pill">ATM options are most reactive — best balance of cost and leverage</span>
+          <span className="pill">OTM options are cheapest but expire worthless most of the time</span>
+          <span className="pill">Most active Nifty traders focus on ATM and near-ATM strikes</span>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function MoneynessTool() {
+  const [mkt, setMkt] = React.useState(24200)
+  const [str, setStr] = React.useState(24000)
+  const diff = mkt - str
+  const tol = 50
+  const callZone = diff > tol ? 'ITM' : diff < -tol ? 'OTM' : 'ATM'
+  const putZone  = diff > tol ? 'OTM' : diff < -tol ? 'ITM' : 'ATM'
+  const zoneColor = (z) => z === 'ITM' ? 'var(--teal)' : z === 'OTM' ? 'var(--red)' : 'var(--amber)'
+  const callIV = Math.max(0, mkt - str)
+  const putIV  = Math.max(0, str - mkt)
+  return (
+    <>
+      <div className="slider-row">
+        <label>Nifty market price</label>
+        <input type="range" min="22000" max="26000" step="50" value={mkt} onChange={e => setMkt(+e.target.value)} />
+        <span className="sval">{mkt.toLocaleString('en-IN')}</span>
+      </div>
+      <div className="slider-row">
+        <label>Strike price</label>
+        <input type="range" min="22000" max="26000" step="50" value={str} onChange={e => setStr(+e.target.value)} />
+        <span className="sval">{str.toLocaleString('en-IN')}</span>
+      </div>
+      <div className="result-row">
+        <div className="result-box">
+          <div className="rl">Difference</div>
+          <div className="rv" style={{color: diff > 0 ? 'var(--teal)' : diff < 0 ? 'var(--red)' : 'var(--text)'}}>
+            {diff >= 0 ? '+' : ''}{diff.toLocaleString('en-IN')}
+          </div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Call status</div>
+          <div className="rv" style={{color: zoneColor(callZone)}}>{callZone}</div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Put status</div>
+          <div className="rv" style={{color: zoneColor(putZone)}}>{putZone}</div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Call intr. value</div>
+          <div className="rv" style={{color: callIV > 0 ? 'var(--teal)' : 'var(--text)'}}>
+            {callIV > 0 ? '+' : ''}₹{callIV}
+          </div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Put intr. value</div>
+          <div className="rv" style={{color: putIV > 0 ? 'var(--teal)' : 'var(--text)'}}>
+            {putIV > 0 ? '+' : ''}₹{putIV}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+
+const PAGES = [Page01, Page02, Page03, Page04, Page05, Page06, Page07, Page08]
 
 export default function App() {
   const [active, setActive] = useState(0)
+  React.useEffect(() => { window._oa_nav = setActive; return () => { delete window._oa_nav; }; }, [setActive])
   const [chatOpen, setChatOpen] = useState(false)
   const Page = PAGES[active]
   const progress = ((active + 1) / PAGES.length) * 100
