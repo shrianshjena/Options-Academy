@@ -45,6 +45,7 @@ export default function ChatBot({ onNavigate, open, onToggle }) {
   const [msgCount, setMsgCount] = useState(0)
   const [lastSent, setLastSent] = useState(0)
   const [navChip, setNavChip] = useState(null)
+  const [livePrice, setLivePrice] = useState(null)
   const bottomRef = useRef(null)
   const inputRef = useRef(null)
 
@@ -84,6 +85,7 @@ export default function ChatBot({ onNavigate, open, onToggle }) {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Error')
+      if (data.meta?.niftyPrice) setLivePrice(data.meta.niftyPrice.toFixed(2))
 
       const stripped = stripMarkdown(data.reply)
       const { nav, clean } = parseNav(stripped)
@@ -118,7 +120,7 @@ export default function ChatBot({ onNavigate, open, onToggle }) {
             <div className="chat-avatar">S</div>
             <div>
               <div className="chat-name">Shri</div>
-              <div className="chat-status">Options tutor</div>
+              <div className="chat-status">{livePrice ? `Nifty ${Number(livePrice).toLocaleString('en-IN')}` : 'Options tutor'}</div>
             </div>
           </div>
           <div className="chat-header-actions">
