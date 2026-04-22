@@ -507,3 +507,46 @@ footer {
 @media (max-width: 640px) {
   .greek-overview-grid { grid-template-columns: 1fr; }
 }
+
+/* ── CHAPTER NAV WRAPPER with scroll arrows ── */
+.chapter-nav-wrap {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+.chapter-nav-wrap .chapter-nav {
+  flex: 1;
+  margin-bottom: 0 !important;
+  min-width: 0;
+}
+.ch-scroll {
+  flex-shrink: 0;
+  width: 36px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  color: var(--text2);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  padding: 0;
+  box-shadow: var(--shadow-sm);
+}
+.ch-scroll:hover {
+  background: var(--blue-dim);
+  border-color: rgba(26,86,219,0.3);
+  color: var(--blue);
+}
+.ch-scroll:active { transform: scale(0.96); }
+
+@media (max-width: 640px) {
+  .ch-scroll { width: 30px; font-size: 18px; }
+}

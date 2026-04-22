@@ -450,7 +450,7 @@ function Page07() {
       <h3>What's next in your learning journey</h3>
       <div className="next-grid">
         <button className="next-item next-item-link" onClick={() => window._oa_nav && window._oa_nav(7)}>ITM / ATM / OTM — moneyness explained <span className="arrow">→</span></button>
-        <div className="next-item">Option Greeks — Delta, Theta, Vega, Gamma <span className="arrow">→</span></div>
+        <button className="next-item next-item-link" onClick={() => window._oa_nav && window._oa_nav(8)}>Option Greeks — Delta, Theta, Vega, Gamma <span className="arrow">→</span></button>
         <div className="next-item">Time decay and why it hurts buyers <span className="arrow">→</span></div>
         <div className="next-item">Multi-leg strategies — straddles, spreads, strangles <span className="arrow">→</span></div>
       </div>
@@ -732,25 +732,27 @@ function DeltaCalc() {
         <label>Nifty move (pts)</label>
         <input type="range" min="-300" max="300" step="25" value={niftyMove}
           onChange={e => setNiftyMove(+e.target.value)} />
-        <span className="sval">{niftyMove > 0 ? `+\${niftyMove}` : niftyMove}</span>
+        <span className="sval">{niftyMove > 0 ? '+' + niftyMove : niftyMove}</span>
       </div>
       <div className="result-row">
         <div className="result-box">
           <div className="rl">Nifty move</div>
           <div className="rv" style={{color: niftyMove >= 0 ? 'var(--teal)' : 'var(--red)'}}>
-            {niftyMove >= 0 ? `+\${niftyMove}` : niftyMove} pts
+            {niftyMove >= 0 ? '+' + niftyMove : niftyMove} pts
           </div>
         </div>
         <div className="result-box">
           <div className="rl">Option moves</div>
           <div className="rv" style={{color: optionMove >= 0 ? 'var(--teal)' : 'var(--red)'}}>
-            {optionMove >= 0 ? `+\${optionMove}` : optionMove} pts
+            {optionMove >= 0 ? '+' + optionMove : optionMove} pts
           </div>
         </div>
         <div className="result-box">
           <div className="rl">Lot P&L</div>
           <div className="rv" style={{color: lotPnl >= 0 ? 'var(--teal)' : 'var(--red)'}}>
-            {lotPnl >= 0 ? `+₹\${lotPnl.toLocaleString('en-IN')}` : `−₹\${Math.abs(lotPnl).toLocaleString('en-IN')}`}
+            {lotPnl >= 0
+              ? '+₹' + lotPnl.toLocaleString('en-IN')
+              : '−₹' + Math.abs(lotPnl).toLocaleString('en-IN')}
           </div>
         </div>
       </div>
@@ -794,15 +796,70 @@ function GreekDelta() {
       </Analogy>
 
       <Divider />
-      <h3>Nifty example — April 2026</h3>
+      <h3>Five Nifty examples — Delta at work</h3>
+      <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Nifty is at <strong style={{color:'var(--text)',fontWeight:600}}>24,400</strong>. The strike you pick determines your delta — and your delta determines how your option reacts.</p>
+
       <div className="card">
-        <p>Nifty is at <strong style={{color:'var(--text)',fontWeight:600}}>24,400</strong>. You hold the 24,400 CE (ATM call), which has a delta of approximately <strong style={{color:'var(--text)',fontWeight:600}}>0.50</strong>. The option is trading at ₹150.</p>
-        <Scenario type="win" label="Nifty jumps 200 points to 24,600">
-          Option moves: 0.50 × 200 = <strong className="g">+100 points</strong>. New option price ≈ ₹250. Lot P&L = +₹6,500.
+        <div className="card-title" style={{color:'var(--blue)'}}>Example 1 — ATM call, delta 0.50 (balanced)</div>
+        <p style={{marginBottom:'10px'}}>24,400 CE at ₹150. Delta = 0.50. This is the most common trading strike.</p>
+        <Scenario type="win" label="Nifty jumps +200 points to 24,600">
+          Option moves: 0.50 × 200 = <strong className="g">+100 points</strong>. Premium rises from ₹150 to ₹250. Lot P&L = +₹6,500.
         </Scenario>
-        <Scenario type="lose" label="Nifty falls 200 points to 24,200">
-          Option moves: 0.50 × (−200) = <strong className="r">−100 points</strong>. New option price ≈ ₹50. Lot P&L = −₹6,500.
+        <Scenario type="lose" label="Nifty falls −200 points to 24,200">
+          Option moves: 0.50 × (−200) = <strong className="r">−100 points</strong>. Premium drops from ₹150 to ₹50. Lot P&L = −₹6,500.
         </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--teal)'}}>Example 2 — Deep ITM call, delta 0.90 (acts like the index)</div>
+        <p style={{marginBottom:'10px'}}>23,800 CE at ₹640. Delta = 0.90. Deep in the money — behaves almost identically to Nifty itself.</p>
+        <Scenario type="win" label="Nifty rises +100 points to 24,500">
+          Option moves: 0.90 × 100 = <strong className="g">+90 points</strong>. Almost point-for-point with Nifty. Lot P&L = +₹5,850. Lower leverage, but much safer and less sensitive to time decay.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--red)'}}>Example 3 — Deep OTM call, delta 0.10 (cheap but sluggish)</div>
+        <p style={{marginBottom:'10px'}}>25,000 CE at ₹20. Delta = 0.10. Strike is 600 points away — requires a big move to matter.</p>
+        <Scenario type="lose" label="Nifty rises +200 points to 24,600 (still below strike)">
+          Option moves: 0.10 × 200 = <strong className="r">only +20 points</strong>. Premium barely doubles to ₹40. Lot P&L = +₹1,300. Most OTM options expire worthless — the cheap premium reflects the low probability.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--teal)'}}>Example 4 — Slightly ITM call, delta 0.70 (sweet spot)</div>
+        <p style={{marginBottom:'10px'}}>24,200 CE at ₹275. Delta = 0.70. In the money by 200 points — a favourite of positional traders.</p>
+        <Scenario type="win" label="Nifty rises +150 points to 24,550">
+          Option moves: 0.70 × 150 = <strong className="g">+105 points</strong>. Premium rises from ₹275 to ₹380. Lot P&L = +₹6,825. Better directional capture than ATM without deep ITM\'s cost.
+        </Scenario>
+        <Scenario type="lose" label="Nifty falls −150 points to 24,250">
+          Option moves: 0.70 × (−150) = <strong className="r">−105 points</strong>. Premium drops to ₹170. Higher delta cuts both ways — you feel moves more strongly in either direction.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--red)'}}>Example 5 — ATM put, delta −0.50 (mirror of the ATM call)</div>
+        <p style={{marginBottom:'10px'}}>24,400 PE at ₹140. Delta = −0.50. Puts have negative delta because they profit when Nifty falls.</p>
+        <Scenario type="win" label="Nifty falls −200 points to 24,200">
+          Option moves: (−0.50) × (−200) = <strong className="g">+100 points</strong>. Premium rises from ₹140 to ₹240. Lot P&L = +₹6,500. Negative times negative becomes positive — the put gains when the index falls.
+        </Scenario>
+        <Scenario type="lose" label="Nifty rises +200 points to 24,600">
+          Option moves: (−0.50) × (+200) = <strong className="r">−100 points</strong>. Premium drops to ₹40. The put loses value because the market moved away from where you need it.
+        </Scenario>
+      </div>
+
+      <Divider />
+      <h3>How delta itself changes as Nifty moves</h3>
+      <div className="card">
+        <p>Delta is not constant — it shifts as Nifty moves relative to the strike. This is actually Gamma at work (covered in the next tab). For a 24,400 CE:</p>
+        <div className="metric-row" style={{marginTop:'12px'}}>
+          <Metric label="Nifty at 23,800" val="Δ ≈ 0.20" color="red" />
+          <Metric label="Nifty at 24,100" val="Δ ≈ 0.35" />
+          <Metric label="Nifty at 24,400" val="Δ ≈ 0.50" color="gold" />
+          <Metric label="Nifty at 24,700" val="Δ ≈ 0.70" color="green" />
+          <Metric label="Nifty at 25,000" val="Δ ≈ 0.85" color="green" />
+        </div>
+        <p style={{fontSize:'13px',color:'var(--text2)',marginTop:'12px'}}>As Nifty rises, your call\'s delta climbs towards 1.0 and the option tracks the index more closely. As Nifty falls, delta shrinks towards 0 and the option becomes less responsive.</p>
       </div>
 
       <Divider />
@@ -907,14 +964,35 @@ function GreekTheta() {
       </Analogy>
 
       <Divider />
-      <h3>Nifty example — April 2026</h3>
+      <h3>Three Nifty examples — Theta at work</h3>
+
       <div className="card">
-        <p>You buy the 24,400 CE with 20 days to expiry. Premium is ₹150 per unit. Theta is approximately <strong style={{color:'var(--text)',fontWeight:600}}>−₹5 per day</strong> (lot = 65 units, so −₹325/day per lot).</p>
+        <div className="card-title" style={{color:'var(--red)'}}>Example 1 — Holding through a quiet week (buyer loses)</div>
+        <p style={{marginBottom:'10px'}}>You buy 24,400 CE with 20 days to expiry. Premium ₹150, Theta −₹5/day, lot 65.</p>
         <Scenario type="lose" label="After 10 days — Nifty still at 24,400">
-          10 × ₹5 = <strong className="r">₹50 decayed away</strong>. Premium now ≈ ₹100. You've lost ₹3,250 per lot just from time — even though Nifty hasn't moved.
+          10 × ₹5 = <strong className="r">₹50 decayed away</strong>. Premium now ≈ ₹100. Lot loss = ₹3,250 just from time — Nifty hasn\'t moved at all.
         </Scenario>
         <Scenario type="lose" label="Final 3 days — Theta accelerates">
-          Theta near expiry is often 2 to 3 times higher. Premium can drop from ₹30 to near zero in the last 3 days. This is when time decay becomes a cliff, not a slope.
+          Theta near expiry is often 2 to 3× higher. Premium can drop from ₹30 to near zero in the last 3 days. Time decay becomes a cliff, not a slope.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--teal)'}}>Example 2 — Selling ATM call over a weekend (seller wins)</div>
+        <p style={{marginBottom:'10px'}}>You sell 24,400 CE on Friday at ₹150, Theta −₹5/day. Market closed Sat–Sun but time still passes.</p>
+        <Scenario type="win" label="Monday morning — Nifty opens flat">
+          3 days of Theta: 3 × ₹5 = <strong className="g">₹15 collected per unit</strong>. Premium has dropped from ₹150 to ~₹135. Lot profit = +₹975 just from the weekend, with zero directional risk incurred.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--red)'}}>Example 3 — Deep OTM call decays fast to zero</div>
+        <p style={{marginBottom:'10px'}}>You buy 25,500 CE at ₹8 with 7 days to expiry. This is a cheap lottery ticket — pure time value, no intrinsic value.</p>
+        <Scenario type="lose" label="3 days pass, Nifty moves slightly up to 24,500">
+          Despite Nifty rising 100 points, the option still has 1,000 points to travel. Theta chews the premium from ₹8 to ₹3. Even a correct directional call fails because the strike is too far away.
+        </Scenario>
+        <Scenario type="lose" label="Expiry day — Nifty closes at 24,450">
+          Option expires worthless. Lot loss = ₹520 (full premium). This is the most common fate of OTM options — over 70% expire at zero.
         </Scenario>
       </div>
 
@@ -980,14 +1058,32 @@ function GreekVega() {
       </Analogy>
 
       <Divider />
-      <h3>Nifty example — April 2026</h3>
+      <h3>Three Nifty examples — Vega at work</h3>
+
       <div className="card">
-        <p>You hold the 24,400 CE with Vega of <strong style={{color:'var(--text)',fontWeight:600}}>0.5</strong>. The premium is ₹150. India VIX is at 15.</p>
-        <Scenario type="win" label="RBI policy day — VIX spikes from 15% to 20%">
-          Vega gain = 0.5 × (+5) = <strong className="g">+2.5 points per unit</strong>. Premium rises from ₹150 to ₹152.5. Lot P&L = +₹162 — without Nifty moving at all.
+        <div className="card-title" style={{color:'var(--teal)'}}>Example 1 — RBI policy day IV spike (buyer wins on Vega)</div>
+        <p style={{marginBottom:'10px'}}>You hold 24,400 CE with Vega 0.5. Premium ₹150. India VIX at 15 before the policy announcement.</p>
+        <Scenario type="win" label="Morning of policy — VIX spikes 15 → 20%">
+          Vega gain = 0.5 × (+5) = <strong className="g">+2.5 points per unit</strong>. Premium rises from ₹150 to ₹152.5. Lot P&L = +₹162 — all of it earned before Nifty has even moved.
         </Scenario>
-        <Scenario type="lose" label="After the event — VIX collapses from 20% to 14%">
-          Vega loss = 0.5 × (−6) = <strong className="r">−3 points per unit</strong>. Premium shrinks even if Nifty moved in your direction. Post-event IV crush is a common trap for option buyers.
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--red)'}}>Example 2 — Post-event IV crush (buyer loses even when right)</div>
+        <p style={{marginBottom:'10px'}}>Same 24,400 CE, now after the RBI announcement. You called the direction right — Nifty rose 100 points. But VIX collapsed.</p>
+        <Scenario type="lose" label="After event — VIX collapses 20 → 14%, Nifty up 100 pts">
+          Delta gain (100 × 0.5) = +50 pts. But Vega loss = 0.5 × (−6) = <strong className="r">−3 pts per unit</strong>. Premium moves up only +47 pts instead of +50. The IV crush eats into your directional win — and for OTM options, it can fully wipe out the move.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--teal)'}}>Example 3 — Budget-day strangle (seller wins both sides)</div>
+        <p style={{marginBottom:'10px'}}>Two days before Union Budget, VIX has spiked to 24 from normal 15. You sell both the 24,400 CE (₹220) and 24,400 PE (₹210). Combined Vega = ~1.0.</p>
+        <Scenario type="win" label="Post-budget — VIX crashes 24 → 16%, Nifty within 100-point range">
+          Vega profit = 1.0 × (−8) = <strong className="g">+₹8 per unit collected</strong>. Combined premium shrinks sharply. If Nifty stays within the sold strikes, both Theta and Vega compound in your favour. Professional traders specifically sell around events to harvest this crush.
+        </Scenario>
+        <Scenario type="lose" label="If Nifty breaks out +500 points instead">
+          Even with Vega collapse helping, the directional loss from the call side dwarfs the Vega gain. Selling straddles near events is high-reward only if you\'re confident the move stays contained. A breakout punishes sellers severely.
         </Scenario>
       </div>
 
@@ -1011,19 +1107,23 @@ function GreekVega() {
           <div className="result-box">
             <div className="rl">IV change</div>
             <div className="rv" style={{color: ivChange >= 0 ? 'var(--teal)' : 'var(--red)'}}>
-              {ivChange >= 0 ? `+\${ivChange.toFixed(1)}` : ivChange.toFixed(1)}%
+              {ivChange >= 0 ? '+' + ivChange.toFixed(1) : ivChange.toFixed(1)}%
             </div>
           </div>
           <div className="result-box">
             <div className="rl">Premium change</div>
             <div className="rv" style={{color: parseFloat(premiumChange) >= 0 ? 'var(--teal)' : 'var(--red)'}}>
-              {parseFloat(premiumChange) >= 0 ? `+₹\${premiumChange}` : `−₹\${Math.abs(parseFloat(premiumChange)).toFixed(1)}`}
+              {parseFloat(premiumChange) >= 0
+                ? '+₹' + premiumChange
+                : '−₹' + Math.abs(parseFloat(premiumChange)).toFixed(1)}
             </div>
           </div>
           <div className="result-box">
             <div className="rl">Lot P&L</div>
             <div className="rv" style={{color: lotChange >= 0 ? 'var(--teal)' : 'var(--red)'}}>
-              {lotChange >= 0 ? `+₹\${lotChange.toLocaleString('en-IN')}` : `−₹\${Math.abs(lotChange).toLocaleString('en-IN')}`}
+              {lotChange >= 0
+                ? '+₹' + lotChange.toLocaleString('en-IN')
+                : '−₹' + Math.abs(lotChange).toLocaleString('en-IN')}
             </div>
           </div>
         </div>
@@ -1078,14 +1178,35 @@ function GreekGamma() {
       </Analogy>
 
       <Divider />
-      <h3>Nifty example — April 2026</h3>
+      <h3>Three Nifty examples — Gamma at work</h3>
+
       <div className="card">
-        <p>Nifty at <strong style={{color:'var(--text)',fontWeight:600}}>24,400</strong>. You hold the 24,400 CE (ATM). Delta = 0.50, Gamma = 0.003.</p>
-        <Scenario type="win" label="Nifty moves to 24,500 (+100 points)">
-          Delta increases by: 0.003 × 100 = <strong className="g">+0.30</strong>. New Delta ≈ 0.80. The option now moves 80 points for every 100-point Nifty rise — faster than before.
+        <div className="card-title" style={{color:'var(--teal)'}}>Example 1 — Gamma compounds your gains (buyer wins)</div>
+        <p style={{marginBottom:'10px'}}>Nifty at 24,400. You hold 24,400 CE (ATM). Delta = 0.50, Gamma = 0.003.</p>
+        <Scenario type="win" label="Nifty rises to 24,500 (+100 points)">
+          Delta increases by: 0.003 × 100 = <strong className="g">+0.30</strong>. New Delta ≈ 0.80. Your option now earns 80 pts for every 100-pt Nifty rise — vs. 50 pts before. Gamma turned a linear position into an accelerating one.
         </Scenario>
-        <Scenario type="lose" label="Nifty moves to 24,300 (−100 points)">
-          Delta decreases by: 0.003 × 100 = <strong className="r">−0.30</strong>. New Delta ≈ 0.20. The option now moves only 20 points per 100-point Nifty move — your position is losing momentum.
+        <Scenario type="lose" label="Nifty falls to 24,300 (−100 points)">
+          Delta decreases to ≈ 0.20. Your loss slows down too — but your directional exposure has shrunk. You\'re holding a weaker position that needs a bigger rebound to recover.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--red)'}}>Example 2 — Gamma destroys a short seller (seller loses fast)</div>
+        <p style={{marginBottom:'10px'}}>You sold 24,400 CE at ₹150 expecting Nifty to stay flat. Short delta ≈ −0.50, short Gamma ≈ −0.003.</p>
+        <Scenario type="lose" label="Nifty surges +200 points intraday on news">
+          Your short delta swells from −0.50 to about −0.85 as the option goes ITM. You\'re losing 200 pts × deepening delta ≈ ₹140 per unit. Lot loss ≈ ₹9,100 on a trade you thought was "low-risk premium selling." This is negative Gamma — losses compound faster than expected.
+        </Scenario>
+      </div>
+
+      <div className="card">
+        <div className="card-title" style={{color:'var(--amber, #b45309)'}}>Example 3 — Expiry day (Gamma day) — extreme Gamma</div>
+        <p style={{marginBottom:'10px'}}>Last Tuesday of the month. Weekly expiry. Nifty oscillating around 24,400. ATM Gamma is 5–10× normal levels.</p>
+        <Scenario type="win" label="Nifty moves +50 points in the last 30 minutes">
+          The 24,400 CE can swing from ₹8 to ₹55 almost instantly — a 6-7× premium move. On a lot, that\'s a ₹3,000+ swing on what looked like a cheap ₹520 bet. Buyers who get the direction right on expiry day can make outsized gains.
+        </Scenario>
+        <Scenario type="lose" label="Flip side — seller of that same option">
+          The seller collected ₹8 × 65 = ₹520 in premium. A ₹47 adverse move → lot loss of ₹3,055. This is why experienced traders call expiry day "Gamma day" and why naked ATM selling on expiry is considered one of the riskiest trades in the book.
         </Scenario>
       </div>
 
@@ -1146,14 +1267,34 @@ export default function App() {
       </div>
 
       <main className="content">
-        <nav className="chapter-nav">
-          {CHAPTERS.map((ch, i) => (
-            <button key={i} className={`ch-btn ${active === i ? 'active' : ''}`} onClick={() => setActive(i)}>
-              <span className="ch-num">{ch.num}</span>
-              <span className="ch-label">{ch.label}</span>
-            </button>
-          ))}
-        </nav>
+        <div className="chapter-nav-wrap">
+          <button
+            type="button"
+            className="ch-scroll ch-scroll-left"
+            onClick={() => {
+              const el = document.querySelector('.chapter-nav');
+              if (el) el.scrollBy({ left: -240, behavior: 'smooth' });
+            }}
+            aria-label="Scroll chapters left"
+          >‹</button>
+          <nav className="chapter-nav">
+            {CHAPTERS.map((ch, i) => (
+              <button key={i} className={`ch-btn ${active === i ? 'active' : ''}`} onClick={() => setActive(i)}>
+                <span className="ch-num">{ch.num}</span>
+                <span className="ch-label">{ch.label}</span>
+              </button>
+            ))}
+          </nav>
+          <button
+            type="button"
+            className="ch-scroll ch-scroll-right"
+            onClick={() => {
+              const el = document.querySelector('.chapter-nav');
+              if (el) el.scrollBy({ left: 240, behavior: 'smooth' });
+            }}
+            aria-label="Scroll chapters right"
+          >›</button>
+        </div>
 
         <div className="progress-bar">
           <div className="progress-fill" style={{width:`${progress}%`}} />
