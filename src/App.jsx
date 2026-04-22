@@ -465,14 +465,14 @@ function Page08() {
 
       <div className="card">
         <div className="card-title">The core idea — moneyness</div>
-        <p>Every option sits in one of three zones based on where the current Nifty price is relative to your strike price. This is called <strong style={{color:'var(--text)',fontWeight:600}}>moneyness</strong>. It tells you whether your option has real value right now, or whether it's still waiting for the market to move in your favour.</p>
+        <p>Every option sits in one of three zones based on where the current Nifty price is relative to your strike price. This relationship is called <strong style={{color:'var(--text)',fontWeight:600}}>moneyness</strong>. It tells you whether your option has real, exercisable value right now, or whether it is still waiting for the market to move in your favour.</p>
       </div>
 
       <div className="grid2" style={{marginBottom:'1rem'}}>
         <div className="card" style={{borderColor:'rgba(26,127,75,0.2)',background:'rgba(26,127,75,0.04)'}}>
           <Tag type="call">ITM — In the Money</Tag>
           <div className="card-title">Real value exists right now</div>
-          <p>If you exercised the option this instant, you would profit. The market has already moved your way.</p>
+          <p>If you exercised the option this instant, you would profit. The market has already moved your way. ITM options carry <strong style={{color:'var(--text)',fontWeight:600}}>intrinsic value</strong> — the difference between the market price and the strike.</p>
           <div className="metric-row" style={{marginTop:'10px'}}>
             <Metric label="Call ITM when" val="Market > Strike" color="green" />
             <Metric label="Put ITM when" val="Market < Strike" color="green" />
@@ -481,7 +481,7 @@ function Page08() {
         <div className="card" style={{borderColor:'rgba(180,83,9,0.2)',background:'rgba(180,83,9,0.04)'}}>
           <Tag type="sell">ATM — At the Money</Tag>
           <div className="card-title">Market is right at the strike</div>
-          <p>No intrinsic value, but maximum sensitivity. A small Nifty move has the biggest proportional effect here.</p>
+          <p>No intrinsic value, but <strong style={{color:'var(--text)',fontWeight:600}}>maximum sensitivity</strong> to price movement. A 100-point Nifty move affects an ATM option more, proportionally, than any other strike. This is why most Nifty traders focus here.</p>
           <div className="metric-row" style={{marginTop:'10px'}}>
             <Metric label="Market price" val="≈ Strike" color="gold" />
             <Metric label="Intrinsic value" val="₹0" />
@@ -491,8 +491,8 @@ function Page08() {
 
       <div className="card" style={{borderColor:'rgba(192,57,43,0.2)',background:'rgba(192,57,43,0.04)',marginBottom:'1.5rem'}}>
         <Tag type="put">OTM — Out of the Money</Tag>
-        <div className="card-title">No real value yet — only time value</div>
-        <p>The market hasn't moved your way. The option is cheap because the probability of finishing profitable is lower. Most OTM options expire worthless.</p>
+        <div className="card-title">No real value yet — only time value remains</div>
+        <p>The market has not moved your way. The option has no intrinsic value — only <strong style={{color:'var(--text)',fontWeight:600}}>time value</strong>, which is the market's price for the possibility that things change before expiry. OTM options are the cheapest to buy, but the majority expire worthless.</p>
         <div className="metric-row" style={{marginTop:'10px'}}>
           <Metric label="Call OTM when" val="Market < Strike" color="red" />
           <Metric label="Put OTM when" val="Market > Strike" color="red" />
@@ -501,46 +501,66 @@ function Page08() {
       </div>
 
       <Analogy>
-        Imagine you hold a train ticket priced at ₹500 between two cities, but today the walk-up fare is ₹650. Your ticket is <strong>ITM</strong> — it's worth something right now. If the fare is exactly ₹500, you're <strong>ATM</strong>. If the fare drops to ₹380, your ticket is <strong>OTM</strong> — it's cheaper to just buy at the counter.
+        Imagine you hold a train ticket priced at ₹500, but today the walk-up fare is ₹650. Your ticket is <strong>ITM</strong> — it saves you money right now. If the fare is exactly ₹500, you're <strong>ATM</strong> — breakeven, no advantage yet. If the fare has dropped to ₹380, your ticket is <strong>OTM</strong> — it's actually cheaper to just buy at the counter.
       </Analogy>
 
       <Divider />
-      <h3>Nifty examples — April 2026</h3>
-      <div className="card">
-        <p style={{marginBottom:'12px'}}>Nifty is at <strong style={{color:'var(--text)',fontWeight:600}}>23,800</strong>. Strike price: <strong style={{color:'var(--text)',fontWeight:600}}>24,000</strong>.</p>
-        <Scenario type="win" label="24,000 CE (Call) — is it ITM or OTM?">
-          Market (23,800) is <strong className="r">below</strong> strike (24,000). The call is <strong className="r">OTM</strong>. Nifty must rise above 24,000 before this call has intrinsic value.
-        </Scenario>
-        <Scenario type="lose" label="24,000 PE (Put) — is it ITM or OTM?">
-          Market (23,800) is <strong className="g">below</strong> strike (24,000). The put is <strong className="g">ITM</strong>. You could sell at 24,000 when the market is only 23,800 — real value exists.
-        </Scenario>
+      <h3>Three Nifty examples — April 2026</h3>
+      <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Nifty is trading at approximately <strong style={{color:'var(--text)',fontWeight:600}}>24,400</strong>. Same market price, three different strikes — three different zones.</p>
+
+      <Scenario type="win" label="Scenario 1 — 24,000 CE · Call option · ITM">
+        Market (24,400) is above strike (24,000). The call is <strong className="g">ITM</strong>. Intrinsic value = 24,400 − 24,000 = <strong className="g">400 points (₹26,000 per lot)</strong>. You are already in profit territory.
+      </Scenario>
+      <Scenario type="flat" label="Scenario 2 — 24,400 CE · Call option · ATM">
+        Market (24,400) equals strike (24,400). The call is <strong>ATM</strong>. Intrinsic value = ₹0, but this strike is the most reactive to any Nifty move from here. It is where the highest volume and open interest cluster on the option chain.
+      </Scenario>
+      <Scenario type="lose" label="Scenario 3 — 24,800 CE · Call option · OTM">
+        Market (24,400) is below strike (24,800). The call is <strong className="r">OTM</strong>. Nifty must climb 400 more points just to reach intrinsic value. Cheap premium, but lower probability of finishing profitable.
+      </Scenario>
+
+      <div className="card" style={{marginTop:'1rem'}}>
+        <div className="card-title">The same logic — flipped — for puts</div>
+        <p style={{marginBottom:'10px'}}>With Nifty at 24,400: the 24,800 PE is ITM (market below strike), the 24,400 PE is ATM, and the 24,000 PE is OTM. The direction simply reverses because puts profit from falls, not rises.</p>
+        <div className="metric-row">
+          <Metric label="24,800 PE" val="ITM" color="green" />
+          <Metric label="24,400 PE" val="ATM" color="gold" />
+          <Metric label="24,000 PE" val="OTM" color="red" />
+        </div>
       </div>
 
       <Divider />
       <h3>The live explorer</h3>
       <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Drag both sliders to see moneyness update live for calls and puts simultaneously.</p>
-
       <div className="calc-box">
         <MoneynessTool />
       </div>
 
       <Divider />
-      <h3>Why moneyness matters when buying</h3>
+      <h3>Why moneyness matters when choosing a strike</h3>
       <div className="card">
-        <div className="pill-row" style={{flexDirection:'column',alignItems:'flex-start',gap:'6px'}}>
-          <span className="pill">ITM options cost more — you pay for the embedded value, lower risk of full loss</span>
-          <span className="pill">ATM options are most reactive — best balance of cost and leverage</span>
-          <span className="pill">OTM options are cheapest but expire worthless most of the time</span>
-          <span className="pill">Most active Nifty traders focus on ATM and near-ATM strikes</span>
-        </div>
+        <div className="card-title">ITM — safer but expensive</div>
+        <p>You are paying for intrinsic value that already exists. The option behaves more like the underlying itself. Lower risk of total loss, but requires more capital upfront.</p>
+      </div>
+      <div className="card">
+        <div className="card-title">ATM — the most actively traded</div>
+        <p>No intrinsic value, but the highest sensitivity to price movement. On any Nifty option chain, the ATM strike almost always has the highest open interest and trading volume. Most professional traders focus their activity here.</p>
+      </div>
+      <div className="card">
+        <div className="card-title">OTM — cheap but high risk</div>
+        <p>Low premium makes these attractive to beginners. But the market must move significantly in your direction just to reach breakeven. Statistically, most OTM options expire at zero. They suit directional bets where you expect a large, fast move.</p>
+      </div>
+
+      <div className="card" style={{marginTop:'0.5rem',background:'rgba(26,86,219,0.04)',borderColor:'rgba(26,86,219,0.15)'}}>
+        <div className="card-title" style={{fontSize:'12px',textTransform:'uppercase',letterSpacing:'0.06em',color:'var(--blue)'}}>What to look for on a real Nifty option chain</div>
+        <p>Open the Nifty option chain on NSE or any broker platform. The strike with the highest open interest (OI) on both the call and put side is almost always the ATM strike. Strikes above it on the call side and below it on the put side are OTM — they cost less. The opposite strikes are ITM and cost more. This is the map you will read every trading day.</p>
       </div>
     </>
   )
 }
 
 function MoneynessTool() {
-  const [mkt, setMkt] = React.useState(24200)
-  const [str, setStr] = React.useState(24000)
+  const [mkt, setMkt] = React.useState(24400)
+  const [str, setStr] = React.useState(24400)
   const diff = mkt - str
   const tol = 50
   const callZone = diff > tol ? 'ITM' : diff < -tol ? 'OTM' : 'ATM'
