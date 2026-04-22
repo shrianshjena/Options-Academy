@@ -408,3 +408,102 @@ footer {
   transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; box-shadow: var(--shadow-sm);
 }
 .next-item-link:hover { background: var(--blue-dim); box-shadow: var(--shadow); }
+
+/* ── CHAPTER NAV — horizontal scroll ── */
+.chapter-nav {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  gap: 6px;
+  margin-bottom: 2rem;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.chapter-nav::-webkit-scrollbar { display: none; }
+.ch-btn { min-width: 100px; flex-shrink: 0; }
+
+/* ── GREEK SUB-TABS ── */
+.greek-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.greek-tabs::-webkit-scrollbar { display: none; }
+.greek-tab {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 18px;
+  border-radius: 99px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  color: var(--text2);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.greek-tab:hover:not(.active) { background: var(--glass-hover); color: var(--text); }
+.greek-tab.active {
+  background: var(--blue-dim);
+  border-color: rgba(26,86,219,0.3);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+/* ── GREEK OVERVIEW GRID ── */
+.greek-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.greek-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+.greek-delta { border-top: 3px solid var(--teal); }
+.greek-theta { border-top: 3px solid var(--red); }
+.greek-vega  { border-top: 3px solid var(--blue); }
+.greek-gamma { border-top: 3px solid var(--amber, #b45309); }
+.greek-symbol {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.greek-delta .greek-symbol { color: var(--teal); }
+.greek-theta .greek-symbol { color: var(--red); }
+.greek-vega  .greek-symbol { color: var(--blue); }
+.greek-gamma .greek-symbol { color: var(--amber, #b45309); }
+.greek-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.greek-one-line {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+.greek-range {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+
+@media (max-width: 640px) {
+  .greek-overview-grid { grid-template-columns: 1fr; }
+}

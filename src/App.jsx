@@ -10,6 +10,7 @@ const CHAPTERS = [
   { num: '06', label: 'Buying & Selling Puts' },
   { num: '07', label: 'Quick Reference' },
   { num: '08', label: 'ITM, ATM & OTM' },
+  { num: '09', label: 'Option Greeks' },
 ]
 
 function Tag({ type, children }) { return <span className={`tag ${type}`}>{children}</span> }
@@ -612,8 +613,511 @@ function MoneynessTool() {
   )
 }
 
+function Page09() {
+  const [greek, setGreek] = React.useState('overview')
 
-const PAGES = [Page01, Page02, Page03, Page04, Page05, Page06, Page07, Page08]
+  const greekTabs = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'delta',    label: 'Delta' },
+    { id: 'theta',    label: 'Theta' },
+    { id: 'vega',     label: 'Vega' },
+    { id: 'gamma',    label: 'Gamma' },
+  ]
+
+  return (
+    <>
+      <div className="page-title">Option Greeks</div>
+      <div className="page-sub">The four forces that govern every option's price every second.</div>
+
+      <div className="greek-tabs">
+        {greekTabs.map(t => (
+          <button
+            key={t.id}
+            className={`greek-tab ${greek === t.id ? 'active' : ''}`}
+            onClick={() => setGreek(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {greek === 'overview' && <GreekOverview />}
+      {greek === 'delta'    && <GreekDelta />}
+      {greek === 'theta'    && <GreekTheta />}
+      {greek === 'vega'     && <GreekVega />}
+      {greek === 'gamma'    && <GreekGamma />}
+    </>
+  )
+}
+
+function GreekOverview() {
+  return (
+    <>
+      <div className="card">
+        <div className="card-title">What are the Greeks?</div>
+        <p>When you buy or sell an option, its price doesn't just depend on where Nifty is right now. It changes every second based on four hidden forces — each measured by a Greek letter. Understanding them is the difference between trading options and truly understanding options.</p>
+      </div>
+
+      <div className="greek-overview-grid">
+        <div className="greek-card greek-delta">
+          <div className="greek-symbol">Δ</div>
+          <div className="greek-name">Delta</div>
+          <div className="greek-one-line">How much the option moves per 1-point Nifty move</div>
+          <div className="greek-range">Calls: 0 to +1 · Puts: −1 to 0</div>
+        </div>
+        <div className="greek-card greek-theta">
+          <div className="greek-symbol">Θ</div>
+          <div className="greek-name">Theta</div>
+          <div className="greek-one-line">How much value the option loses per day, just from time passing</div>
+          <div className="greek-range">Always negative for buyers</div>
+        </div>
+        <div className="greek-card greek-vega">
+          <div className="greek-symbol">V</div>
+          <div className="greek-name">Vega</div>
+          <div className="greek-one-line">How much the option changes per 1% change in implied volatility</div>
+          <div className="greek-range">Always positive for buyers</div>
+        </div>
+        <div className="greek-card greek-gamma">
+          <div className="greek-symbol">Γ</div>
+          <div className="greek-name">Gamma</div>
+          <div className="greek-one-line">How fast Delta itself is changing as Nifty moves</div>
+          <div className="greek-range">Highest at ATM, dangerous near expiry</div>
+        </div>
+      </div>
+
+      <Analogy>
+        Think of an option like a car journey. <strong>Delta</strong> is your speed — how fast your P&L moves with Nifty. <strong>Gamma</strong> is your acceleration — how quickly your speed is changing. <strong>Theta</strong> is the fuel burning out of your tank every day whether you move or not. <strong>Vega</strong> is the effect of road conditions — when volatility spikes, your option inflates in value even if Nifty hasn't moved.
+      </Analogy>
+
+      <Divider />
+      <h3>Who benefits from each Greek?</h3>
+      <div className="grid2">
+        <div className="card">
+          <div className="card-title">Option buyers want</div>
+          <div className="pill-row" style={{flexDirection:'column',gap:'6px',marginTop:'6px'}}>
+            <span className="pill">High Delta — so price moves translate quickly to profit</span>
+            <span className="pill">High Gamma — so Delta keeps growing as Nifty moves their way</span>
+            <span className="pill">High Vega — a volatility spike inflates their premium</span>
+            <span className="pill">Low Theta — slow time decay, more time to be right</span>
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-title">Option sellers want</div>
+          <div className="pill-row" style={{flexDirection:'column',gap:'6px',marginTop:'6px'}}>
+            <span className="pill">Low Delta — small Nifty moves don't hurt them much</span>
+            <span className="pill">Low Gamma — Delta stays stable, no nasty surprises</span>
+            <span className="pill">Low Vega — a volatility collapse shrinks the premium they sold</span>
+            <span className="pill">High Theta — time decay works in their favour every day</span>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function DeltaCalc() {
+  const [delta, setDelta] = React.useState(0.5)
+  const [niftyMove, setNiftyMove] = React.useState(100)
+  const optionMove = Math.round(delta * niftyMove)
+  const lotPnl = optionMove * 65
+  return (
+    <>
+      <div className="slider-row">
+        <label>Delta value</label>
+        <input type="range" min="0.05" max="0.95" step="0.05" value={delta}
+          onChange={e => setDelta(parseFloat(e.target.value))} />
+        <span className="sval">{delta.toFixed(2)}</span>
+      </div>
+      <div className="slider-row">
+        <label>Nifty move (pts)</label>
+        <input type="range" min="-300" max="300" step="25" value={niftyMove}
+          onChange={e => setNiftyMove(+e.target.value)} />
+        <span className="sval">{niftyMove > 0 ? `+\${niftyMove}` : niftyMove}</span>
+      </div>
+      <div className="result-row">
+        <div className="result-box">
+          <div className="rl">Nifty move</div>
+          <div className="rv" style={{color: niftyMove >= 0 ? 'var(--teal)' : 'var(--red)'}}>
+            {niftyMove >= 0 ? `+\${niftyMove}` : niftyMove} pts
+          </div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Option moves</div>
+          <div className="rv" style={{color: optionMove >= 0 ? 'var(--teal)' : 'var(--red)'}}>
+            {optionMove >= 0 ? `+\${optionMove}` : optionMove} pts
+          </div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Lot P&L</div>
+          <div className="rv" style={{color: lotPnl >= 0 ? 'var(--teal)' : 'var(--red)'}}>
+            {lotPnl >= 0 ? `+₹\${lotPnl.toLocaleString('en-IN')}` : `−₹\${Math.abs(lotPnl).toLocaleString('en-IN')}`}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function GreekDelta() {
+  return (
+    <>
+      <div className="card">
+        <div className="card-title">Delta — the speed of your option</div>
+        <p>Delta measures how much an option's price moves for every 1-point change in Nifty. A delta of 0.5 means if Nifty moves 100 points, your option moves approximately 50 points. It is the most important Greek for understanding day-to-day P&L.</p>
+      </div>
+
+      <div className="grid2">
+        <div className="card" style={{borderColor:'rgba(26,127,75,0.2)',background:'rgba(26,127,75,0.04)'}}>
+          <Tag type="call">Call options</Tag>
+          <div className="card-title">Delta: 0 to +1</div>
+          <div className="metric-row">
+            <Metric label="Deep ITM" val="≈ 1.0" color="green" />
+            <Metric label="ATM" val="≈ 0.5" color="gold" />
+            <Metric label="Deep OTM" val="≈ 0.0" color="red" />
+          </div>
+          <p style={{fontSize:'13px',marginTop:'10px'}}>A deep ITM call moves almost exactly like Nifty itself. A deep OTM call barely reacts to price moves.</p>
+        </div>
+        <div className="card" style={{borderColor:'rgba(192,57,43,0.2)',background:'rgba(192,57,43,0.04)'}}>
+          <Tag type="put">Put options</Tag>
+          <div className="card-title">Delta: −1 to 0</div>
+          <div className="metric-row">
+            <Metric label="Deep ITM" val="≈ −1.0" color="red" />
+            <Metric label="ATM" val="≈ −0.5" color="gold" />
+            <Metric label="Deep OTM" val="≈ 0.0" color="red" />
+          </div>
+          <p style={{fontSize:'13px',marginTop:'10px'}}>Negative because puts gain value when Nifty falls. A −0.5 delta put gains 50 points for every 100-point Nifty drop.</p>
+        </div>
+      </div>
+
+      <Analogy>
+        Delta is like a car's speedometer. If your delta is 0.5, you're travelling at half the speed of Nifty. Deep ITM options have delta near 1 — they move almost point-for-point with the index. Deep OTM options have delta near 0 — they barely move at all until the market gets close to their strike.
+      </Analogy>
+
+      <Divider />
+      <h3>Nifty example — April 2026</h3>
+      <div className="card">
+        <p>Nifty is at <strong style={{color:'var(--text)',fontWeight:600}}>24,400</strong>. You hold the 24,400 CE (ATM call), which has a delta of approximately <strong style={{color:'var(--text)',fontWeight:600}}>0.50</strong>. The option is trading at ₹150.</p>
+        <Scenario type="win" label="Nifty jumps 200 points to 24,600">
+          Option moves: 0.50 × 200 = <strong className="g">+100 points</strong>. New option price ≈ ₹250. Lot P&L = +₹6,500.
+        </Scenario>
+        <Scenario type="lose" label="Nifty falls 200 points to 24,200">
+          Option moves: 0.50 × (−200) = <strong className="r">−100 points</strong>. New option price ≈ ₹50. Lot P&L = −₹6,500.
+        </Scenario>
+      </div>
+
+      <Divider />
+      <h3>Interactive delta calculator</h3>
+      <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Adjust the delta and Nifty move to see the option's price change and lot P&L.</p>
+      <div className="calc-box">
+        <DeltaCalc />
+      </div>
+
+      <Divider />
+      <h3>Key things to remember about Delta</h3>
+      <div className="card">
+        <div className="pill-row" style={{flexDirection:'column',alignItems:'flex-start',gap:'6px'}}>
+          <span className="pill">ATM options always have delta ≈ 0.5 for calls, ≈ −0.5 for puts</span>
+          <span className="pill">Delta increases as the option moves deeper ITM</span>
+          <span className="pill">Delta decreases as the option moves further OTM</span>
+          <span className="pill">A delta of 0.5 also means roughly a 50% chance of expiring ITM</span>
+          <span className="pill">Put delta + Call delta (same strike) always sum to approximately 1</span>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function ThetaCalc() {
+  const [days, setDays] = React.useState(20)
+  const [theta, setTheta] = React.useState(5)
+  const [startPremium, setStartPremium] = React.useState(150)
+  const decayed = Math.max(0, startPremium - theta * days)
+  const pct = ((startPremium - decayed) / startPremium * 100).toFixed(0)
+  return (
+    <>
+      <div className="slider-row">
+        <label>Starting premium (₹)</label>
+        <input type="range" min="50" max="500" step="10" value={startPremium}
+          onChange={e => setStartPremium(+e.target.value)} />
+        <span className="sval">₹{startPremium}</span>
+      </div>
+      <div className="slider-row">
+        <label>Daily Theta (₹/day)</label>
+        <input type="range" min="1" max="30" step="1" value={theta}
+          onChange={e => setTheta(+e.target.value)} />
+        <span className="sval">₹{theta}</span>
+      </div>
+      <div className="slider-row">
+        <label>Days elapsed</label>
+        <input type="range" min="0" max="30" step="1" value={days}
+          onChange={e => setDays(+e.target.value)} />
+        <span className="sval">{days}d</span>
+      </div>
+      <div className="result-row">
+        <div className="result-box">
+          <div className="rl">Premium paid</div>
+          <div className="rv">₹{startPremium}</div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Remaining value</div>
+          <div className="rv" style={{color: decayed < startPremium * 0.4 ? 'var(--red)' : 'var(--teal)'}}>
+            ₹{Math.round(decayed)}
+          </div>
+        </div>
+        <div className="result-box">
+          <div className="rl">Decayed away</div>
+          <div className="rv" style={{color:'var(--red)'}}>−₹{Math.round(startPremium - decayed)} ({pct}%)</div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function GreekTheta() {
+  return (
+    <>
+      <div className="card">
+        <div className="card-title">Theta — the silent cost of holding time</div>
+        <p>Every option loses value with each passing day, even if Nifty doesn't move at all. This daily erosion is measured by Theta. If an option has Theta of −5, it loses approximately ₹5 per unit per day from time decay alone. Theta is the enemy of option buyers and the friend of option sellers.</p>
+      </div>
+
+      <div className="grid2">
+        <div className="card" style={{borderColor:'rgba(192,57,43,0.2)',background:'rgba(192,57,43,0.04)'}}>
+          <Tag type="put">For buyers</Tag>
+          <div className="card-title">Theta hurts you</div>
+          <p>Every day that passes without Nifty moving your way, your premium shrinks. You are fighting against the clock. The longer you hold, the more time value bleeds out.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="Theta effect" val="Negative" color="red" />
+            <Metric label="Time passing" val="Hurts" color="red" />
+          </div>
+        </div>
+        <div className="card" style={{borderColor:'rgba(26,127,75,0.2)',background:'rgba(26,127,75,0.04)'}}>
+          <Tag type="call">For sellers</Tag>
+          <div className="card-title">Theta works for you</div>
+          <p>You collected the premium upfront. Every day that passes without the market moving against you, the option you sold is worth less — and you keep more of the premium as profit.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="Theta effect" val="Positive" color="green" />
+            <Metric label="Time passing" val="Helps" color="green" />
+          </div>
+        </div>
+      </div>
+
+      <Analogy>
+        Theta is like a melting ice cube. The moment you buy an option, you hold a block of ice (your premium) that starts melting immediately. The heat is time. The closer you get to expiry, the faster it melts — the last few days before expiry, time decay accelerates sharply. Option sellers are the ones selling you the ice cube, and they benefit as it melts.
+      </Analogy>
+
+      <Divider />
+      <h3>Nifty example — April 2026</h3>
+      <div className="card">
+        <p>You buy the 24,400 CE with 20 days to expiry. Premium is ₹150 per unit. Theta is approximately <strong style={{color:'var(--text)',fontWeight:600}}>−₹5 per day</strong> (lot = 65 units, so −₹325/day per lot).</p>
+        <Scenario type="lose" label="After 10 days — Nifty still at 24,400">
+          10 × ₹5 = <strong className="r">₹50 decayed away</strong>. Premium now ≈ ₹100. You've lost ₹3,250 per lot just from time — even though Nifty hasn't moved.
+        </Scenario>
+        <Scenario type="lose" label="Final 3 days — Theta accelerates">
+          Theta near expiry is often 2 to 3 times higher. Premium can drop from ₹30 to near zero in the last 3 days. This is when time decay becomes a cliff, not a slope.
+        </Scenario>
+      </div>
+
+      <Divider />
+      <h3>Interactive Theta decay calculator</h3>
+      <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>See how time decay erodes your premium as days pass (simplified linear model — real decay accelerates near expiry).</p>
+      <div className="calc-box">
+        <ThetaCalc />
+      </div>
+
+      <Divider />
+      <h3>Key things to remember about Theta</h3>
+      <div className="card">
+        <div className="pill-row" style={{flexDirection:'column',alignItems:'flex-start',gap:'6px'}}>
+          <span className="pill">ATM options have the highest Theta — the most time value to decay</span>
+          <span className="pill">Deep ITM and OTM options have lower Theta</span>
+          <span className="pill">Theta accelerates sharply in the last 5 to 7 days before expiry</span>
+          <span className="pill">Sellers of weekly/monthly options benefit most from Theta</span>
+          <span className="pill">Buying options just before expiry is extremely risky — Theta is brutal</span>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function GreekVega() {
+  const [iv, setIv] = React.useState(15)
+  const [vega, setVega] = React.useState(0.5)
+  const baseIV = 15
+  const ivChange = iv - baseIV
+  const premiumChange = (vega * ivChange).toFixed(1)
+  const lotChange = Math.round(vega * ivChange * 65)
+  return (
+    <>
+      <div className="card">
+        <div className="card-title">Vega — the volatility multiplier</div>
+        <p>Vega measures how much an option's price changes for every 1% change in implied volatility (IV). When markets become uncertain and IV spikes — like during a geopolitical event or RBI announcement — option premiums inflate even if Nifty doesn't move. Vega is why options can get expensive just before major events.</p>
+      </div>
+
+      <div className="grid2">
+        <div className="card" style={{borderColor:'rgba(26,127,75,0.2)',background:'rgba(26,127,75,0.04)'}}>
+          <Tag type="call">IV rises</Tag>
+          <div className="card-title">Premiums inflate — buyers benefit</div>
+          <p>When IV rises (panic, uncertainty, event risk), all options become more expensive. If you already hold an option, its value increases even if Nifty hasn't moved. This is called a Vega gain.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="IV ↑" val="Premium ↑" color="green" />
+            <Metric label="Good for" val="Buyers" color="green" />
+          </div>
+        </div>
+        <div className="card" style={{borderColor:'rgba(192,57,43,0.2)',background:'rgba(192,57,43,0.04)'}}>
+          <Tag type="put">IV falls</Tag>
+          <div className="card-title">Premiums collapse — sellers benefit</div>
+          <p>When IV falls (calm markets, post-event), premiums shrink. Option sellers collect this collapse. This is why selling options just after a big event can be profitable even if Nifty barely moves.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="IV ↓" val="Premium ↓" color="red" />
+            <Metric label="Good for" val="Sellers" color="green" />
+          </div>
+        </div>
+      </div>
+
+      <Analogy>
+        Think of Vega like the price of an umbrella. On a sunny day, umbrellas are cheap — no one is worried. But the moment weather forecasts show a storm approaching, umbrella prices spike. The storm hasn't hit yet, but the uncertainty alone inflates the price. Options work the same way — when markets fear a big move, IV rises and all options get more expensive, even before anything actually happens.
+      </Analogy>
+
+      <Divider />
+      <h3>Nifty example — April 2026</h3>
+      <div className="card">
+        <p>You hold the 24,400 CE with Vega of <strong style={{color:'var(--text)',fontWeight:600}}>0.5</strong>. The premium is ₹150. India VIX is at 15.</p>
+        <Scenario type="win" label="RBI policy day — VIX spikes from 15% to 20%">
+          Vega gain = 0.5 × (+5) = <strong className="g">+2.5 points per unit</strong>. Premium rises from ₹150 to ₹152.5. Lot P&L = +₹162 — without Nifty moving at all.
+        </Scenario>
+        <Scenario type="lose" label="After the event — VIX collapses from 20% to 14%">
+          Vega loss = 0.5 × (−6) = <strong className="r">−3 points per unit</strong>. Premium shrinks even if Nifty moved in your direction. Post-event IV crush is a common trap for option buyers.
+        </Scenario>
+      </div>
+
+      <Divider />
+      <h3>Interactive Vega calculator</h3>
+      <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Base IV is 15%. Drag to change implied volatility and see the premium impact (Vega = 0.5 per 1% IV change).</p>
+      <div className="calc-box">
+        <div className="slider-row">
+          <label>Implied volatility (%)</label>
+          <input type="range" min="8" max="35" step="0.5" value={iv}
+            onChange={e => setIv(parseFloat(e.target.value))} />
+          <span className="sval">{iv.toFixed(1)}%</span>
+        </div>
+        <div className="slider-row">
+          <label>Vega</label>
+          <input type="range" min="0.1" max="2" step="0.1" value={vega}
+            onChange={e => setVega(parseFloat(e.target.value))} />
+          <span className="sval">{vega.toFixed(1)}</span>
+        </div>
+        <div className="result-row">
+          <div className="result-box">
+            <div className="rl">IV change</div>
+            <div className="rv" style={{color: ivChange >= 0 ? 'var(--teal)' : 'var(--red)'}}>
+              {ivChange >= 0 ? `+\${ivChange.toFixed(1)}` : ivChange.toFixed(1)}%
+            </div>
+          </div>
+          <div className="result-box">
+            <div className="rl">Premium change</div>
+            <div className="rv" style={{color: parseFloat(premiumChange) >= 0 ? 'var(--teal)' : 'var(--red)'}}>
+              {parseFloat(premiumChange) >= 0 ? `+₹\${premiumChange}` : `−₹\${Math.abs(parseFloat(premiumChange)).toFixed(1)}`}
+            </div>
+          </div>
+          <div className="result-box">
+            <div className="rl">Lot P&L</div>
+            <div className="rv" style={{color: lotChange >= 0 ? 'var(--teal)' : 'var(--red)'}}>
+              {lotChange >= 0 ? `+₹\${lotChange.toLocaleString('en-IN')}` : `−₹\${Math.abs(lotChange).toLocaleString('en-IN')}`}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Divider />
+      <h3>Key things to remember about Vega</h3>
+      <div className="card">
+        <div className="pill-row" style={{flexDirection:'column',alignItems:'flex-start',gap:'6px'}}>
+          <span className="pill">ATM options have the highest Vega — most sensitive to IV changes</span>
+          <span className="pill">Long options (buyers) have positive Vega — IV rise helps them</span>
+          <span className="pill">Short options (sellers) have negative Vega — IV rise hurts them</span>
+          <span className="pill">Never buy options just before a major event expecting a big move — IV is already inflated</span>
+          <span className="pill">After an event, IV typically collapses — this can wipe out option buyers even if they called the direction right</span>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function GreekGamma() {
+  return (
+    <>
+      <div className="card">
+        <div className="card-title">Gamma — the rate of change of Delta</div>
+        <p>Gamma measures how quickly Delta itself changes as Nifty moves. If Delta is your speed, Gamma is your acceleration. A high Gamma means your Delta is changing rapidly with every Nifty point — which can work powerfully in your favour as a buyer, or dangerously against you as a seller.</p>
+      </div>
+
+      <div className="grid2">
+        <div className="card" style={{borderColor:'rgba(26,127,75,0.2)',background:'rgba(26,127,75,0.04)'}}>
+          <Tag type="call">For buyers</Tag>
+          <div className="card-title">Gamma accelerates your gains</div>
+          <p>As Nifty moves in your direction, your Delta increases — which means each additional point Nifty moves earns you more than the last. This compounding effect is Gamma working for you.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="Gamma" val="Positive" color="green" />
+            <Metric label="Effect" val="Gains compound" color="green" />
+          </div>
+        </div>
+        <div className="card" style={{borderColor:'rgba(192,57,43,0.2)',background:'rgba(192,57,43,0.04)'}}>
+          <Tag type="put">For sellers</Tag>
+          <div className="card-title">Gamma accelerates your losses</div>
+          <p>As Nifty moves against you, your Delta increases in the wrong direction — each additional point costs you more than the last. Gamma is the primary risk that makes selling options dangerous during sharp moves.</p>
+          <div className="metric-row" style={{marginTop:'10px'}}>
+            <Metric label="Gamma" val="Negative" color="red" />
+            <Metric label="Effect" val="Losses compound" color="red" />
+          </div>
+        </div>
+      </div>
+
+      <Analogy>
+        Imagine you are driving and Delta is your current speed. Gamma is the accelerator pedal. For a buyer, as Nifty moves your way, it's like someone pressing the accelerator harder — each point you gain comes faster and earns more. For a seller, it's the opposite: a big adverse move is like the brakes failing — you keep accelerating into losses. This is why sharp, fast Nifty moves are particularly dangerous for option sellers.
+      </Analogy>
+
+      <Divider />
+      <h3>Nifty example — April 2026</h3>
+      <div className="card">
+        <p>Nifty at <strong style={{color:'var(--text)',fontWeight:600}}>24,400</strong>. You hold the 24,400 CE (ATM). Delta = 0.50, Gamma = 0.003.</p>
+        <Scenario type="win" label="Nifty moves to 24,500 (+100 points)">
+          Delta increases by: 0.003 × 100 = <strong className="g">+0.30</strong>. New Delta ≈ 0.80. The option now moves 80 points for every 100-point Nifty rise — faster than before.
+        </Scenario>
+        <Scenario type="lose" label="Nifty moves to 24,300 (−100 points)">
+          Delta decreases by: 0.003 × 100 = <strong className="r">−0.30</strong>. New Delta ≈ 0.20. The option now moves only 20 points per 100-point Nifty move — your position is losing momentum.
+        </Scenario>
+      </div>
+
+      <Divider />
+      <h3>Where is Gamma highest?</h3>
+      <div className="card">
+        <p style={{marginBottom:'12px'}}>Gamma is always highest for <strong style={{color:'var(--text)',fontWeight:600}}>ATM options</strong>, and it becomes extremely high in the final days before expiry. This is why:</p>
+        <div className="metric-row">
+          <Metric label="Deep ITM" val="Low Gamma" />
+          <Metric label="ATM" val="Highest Gamma" color="blue" />
+          <Metric label="Deep OTM" val="Low Gamma" />
+        </div>
+        <p style={{fontSize:'13px',marginTop:'12px',color:'var(--text2)'}}>Near expiry, ATM Gamma explodes. A 50-point Nifty swing on expiry day can swing an ATM option from worthless to ₹50 instantly. This is why expiry day is called Gamma day by experienced traders — and why selling ATM options on expiry day carries extreme risk.</p>
+      </div>
+
+      <Divider />
+      <h3>Key things to remember about Gamma</h3>
+      <div className="card">
+        <div className="pill-row" style={{flexDirection:'column',alignItems:'flex-start',gap:'6px'}}>
+          <span className="pill">Gamma is highest at ATM and near expiry</span>
+          <span className="pill">Buyers benefit from Gamma — gains compound as the market moves their way</span>
+          <span className="pill">Sellers fear Gamma — losses compound during sharp moves</span>
+          <span className="pill">Selling ATM options on expiry day (Gamma day) is extremely high risk</span>
+          <span className="pill">Gamma and Theta are opposites — high Gamma comes with high Theta cost for buyers</span>
+        </div>
+      </div>
+    </>
+  )
+}
+
+
+const PAGES = [Page01, Page02, Page03, Page04, Page05, Page06, Page07, Page08, Page09]
 
 export default function App() {
   const [active, setActive] = useState(0)
