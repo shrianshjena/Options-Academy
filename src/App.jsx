@@ -830,7 +830,7 @@ function GreekDelta() {
         <div className="card-title" style={{color:'var(--teal)'}}>Example 4 — Slightly ITM call, delta 0.70 (sweet spot)</div>
         <p style={{marginBottom:'10px'}}>24,200 CE at ₹275. Delta = 0.70. In the money by 200 points — a favourite of positional traders.</p>
         <Scenario type="win" label="Nifty rises +150 points to 24,550">
-          Option moves: 0.70 × 150 = <strong className="g">+105 points</strong>. Premium rises from ₹275 to ₹380. Lot P&L = +₹6,825. Better directional capture than ATM without deep ITM\'s cost.
+          Option moves: 0.70 × 150 = <strong className="g">+105 points</strong>. Premium rises from ₹275 to ₹380. Lot P&L = +₹6,825. Better directional capture than ATM without deep ITM's cost.
         </Scenario>
         <Scenario type="lose" label="Nifty falls −150 points to 24,250">
           Option moves: 0.70 × (−150) = <strong className="r">−105 points</strong>. Premium drops to ₹170. Higher delta cuts both ways — you feel moves more strongly in either direction.
@@ -859,7 +859,7 @@ function GreekDelta() {
           <Metric label="Nifty at 24,700" val="Δ ≈ 0.70" color="green" />
           <Metric label="Nifty at 25,000" val="Δ ≈ 0.85" color="green" />
         </div>
-        <p style={{fontSize:'13px',color:'var(--text2)',marginTop:'12px'}}>As Nifty rises, your call\'s delta climbs towards 1.0 and the option tracks the index more closely. As Nifty falls, delta shrinks towards 0 and the option becomes less responsive.</p>
+        <p style={{fontSize:'13px',color:'var(--text2)',marginTop:'12px'}}>As Nifty rises, your call's delta climbs towards 1.0 and the option tracks the index more closely. As Nifty falls, delta shrinks towards 0 and the option becomes less responsive.</p>
       </div>
 
       <Divider />
@@ -867,6 +867,36 @@ function GreekDelta() {
       <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>Adjust the delta and Nifty move to see the option's price change and lot P&L.</p>
       <div className="calc-box">
         <DeltaCalc />
+      </div>
+
+      <Divider />
+      <h3>What Delta range to look for when entering a trade</h3>
+      <div className="grid2" style={{marginBottom:'1rem'}}>
+        <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+          <div className="card-title" style={{color:'var(--blue)'}}>Intraday / short-term (0–3 days)</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="Ideal Delta" val="0.40 – 0.60" color="blue" />
+            <Metric label="Strike zone" val="ATM ± 50 pts" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>ATM options give the highest responsiveness per rupee spent. Maximum sensitivity to every Nifty tick — ideal when you expect a move within the same session.</p>
+        </div>
+        <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+          <div className="card-title" style={{color:'var(--blue)'}}>Positional (3–15 days)</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="Ideal Delta" val="0.60 – 0.75" color="blue" />
+            <Metric label="Strike zone" val="100–250 pts ITM" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>Slightly ITM reduces Theta damage while still capturing most of Nifty's directional move. The delta of 0.70 is the sweet spot many positional traders target.</p>
+        </div>
+      </div>
+      <div className="card" style={{borderColor:'rgba(180,83,9,0.15)',background:'rgba(180,83,9,0.03)'}}>
+        <div className="card-title">Ranges to avoid (and why)</div>
+        <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+          <Metric label="Delta below 0.20" val="Too risky" color="red" />
+          <Metric label="Delta 0.20 – 0.35" val="Speculative" color="gold" />
+          <Metric label="Delta above 0.85" val="Low leverage" />
+        </div>
+        <p style={{fontSize:'13px',color:'var(--text2)'}}>Delta below 0.20 means the option is deep OTM — it requires a very large Nifty move just to move the needle and most will expire worthless. Delta above 0.85 is so deep ITM that you are effectively buying the index itself at a premium — better to trade Nifty futures at that point.</p>
       </div>
 
       <Divider />
@@ -970,7 +1000,7 @@ function GreekTheta() {
         <div className="card-title" style={{color:'var(--red)'}}>Example 1 — Holding through a quiet week (buyer loses)</div>
         <p style={{marginBottom:'10px'}}>You buy 24,400 CE with 20 days to expiry. Premium ₹150, Theta −₹5/day, lot 65.</p>
         <Scenario type="lose" label="After 10 days — Nifty still at 24,400">
-          10 × ₹5 = <strong className="r">₹50 decayed away</strong>. Premium now ≈ ₹100. Lot loss = ₹3,250 just from time — Nifty hasn\'t moved at all.
+          10 × ₹5 = <strong className="r">₹50 decayed away</strong>. Premium now ≈ ₹100. Lot loss = ₹3,250 just from time — Nifty hasn't moved at all.
         </Scenario>
         <Scenario type="lose" label="Final 3 days — Theta accelerates">
           Theta near expiry is often 2 to 3× higher. Premium can drop from ₹30 to near zero in the last 3 days. Time decay becomes a cliff, not a slope.
@@ -1001,6 +1031,37 @@ function GreekTheta() {
       <p style={{fontSize:'14px',color:'var(--text2)',marginBottom:'1rem'}}>See how time decay erodes your premium as days pass (simplified linear model — real decay accelerates near expiry).</p>
       <div className="calc-box">
         <ThetaCalc />
+      </div>
+
+      <Divider />
+      <h3>What Theta range to look for when entering a trade</h3>
+      <div className="grid2" style={{marginBottom:'1rem'}}>
+        <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+          <div className="card-title" style={{color:'var(--blue)'}}>Buying options — Theta to tolerate</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="Acceptable" val="< 1% / day" color="green" />
+            <Metric label="Dangerous" val="> 3% / day" color="red" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>As a buyer, check: daily Theta ÷ premium paid. If you are losing more than 1% of your premium per day from time decay alone, you need a fast, decisive Nifty move to stay ahead. Anything above 3% per day is extremely punishing — typical of options in the final week before expiry.</p>
+        </div>
+        <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+          <div className="card-title" style={{color:'var(--blue)'}}>Selling options — Theta to target</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="Sweet spot" val="15–30 days to expiry" color="green" />
+            <Metric label="Collect" val="0.5–1% / day" color="green" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>Professional sellers prefer 15–30 days to expiry — Theta is accelerating but Gamma risk is still manageable. The final 7 days have the highest Theta but also the highest Gamma — a double-edged sword that catches many sellers off guard.</p>
+        </div>
+      </div>
+      <div className="card" style={{borderColor:'rgba(180,83,9,0.15)',background:'rgba(180,83,9,0.03)'}}>
+        <div className="card-title">Days to expiry reference</div>
+        <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+          <Metric label="30+ days" val="Low Theta" />
+          <Metric label="15–30 days" val="Moderate" color="gold" />
+          <Metric label="7–14 days" val="Elevated" color="gold" />
+          <Metric label="1–7 days" val="Extreme" color="red" />
+        </div>
+        <p style={{fontSize:'13px',color:'var(--text2)'}}>Buyers should avoid options with fewer than 7 days to expiry unless they have a specific, high-conviction short-term view. Time is not your friend in those final days — every hour costs money.</p>
       </div>
 
       <Divider />
@@ -1083,7 +1144,7 @@ function GreekVega() {
           Vega profit = 1.0 × (−8) = <strong className="g">+₹8 per unit collected</strong>. Combined premium shrinks sharply. If Nifty stays within the sold strikes, both Theta and Vega compound in your favour. Professional traders specifically sell around events to harvest this crush.
         </Scenario>
         <Scenario type="lose" label="If Nifty breaks out +500 points instead">
-          Even with Vega collapse helping, the directional loss from the call side dwarfs the Vega gain. Selling straddles near events is high-reward only if you\'re confident the move stays contained. A breakout punishes sellers severely.
+          Even with Vega collapse helping, the directional loss from the call side dwarfs the Vega gain. Selling straddles near events is high-reward only if you're confident the move stays contained. A breakout punishes sellers severely.
         </Scenario>
       </div>
 
@@ -1127,6 +1188,37 @@ function GreekVega() {
             </div>
           </div>
         </div>
+      </div>
+
+      <Divider />
+      <h3>What Vega level to consider when entering a trade</h3>
+      <div className="grid2" style={{marginBottom:'1rem'}}>
+        <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+          <div className="card-title" style={{color:'var(--blue)'}}>Buying — when IV is low</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="India VIX" val="Below 14" color="green" />
+            <Metric label="IV position" val="Near lows" color="green" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>Buy options when IV is at or near recent lows — premiums are cheap and Vega is on your side. If IV reverts to its average, your option gains value even without Nifty moving. Think of it as buying cheap insurance before the weather turns.</p>
+        </div>
+        <div className="card" style={{borderColor:'rgba(192,57,43,0.15)',background:'rgba(192,57,43,0.03)'}}>
+          <div className="card-title" style={{color:'var(--red)'}}>Buying — when IV is high (danger zone)</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="India VIX" val="Above 20" color="red" />
+            <Metric label="Risk" val="IV crush" color="red" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>When VIX is above 20, options are expensive. Buying during elevated IV means Vega is working against you — a post-event collapse in IV can wipe out your gains even if Nifty moves your way. Experienced traders sell elevated IV, not buy it.</p>
+        </div>
+      </div>
+      <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+        <div className="card-title">India VIX reference guide</div>
+        <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+          <Metric label="VIX below 12" val="Very cheap" color="green" />
+          <Metric label="VIX 12 – 16" val="Normal" color="green" />
+          <Metric label="VIX 16 – 22" val="Elevated" color="gold" />
+          <Metric label="VIX above 22" val="Extreme" color="red" />
+        </div>
+        <p style={{fontSize:'13px',color:'var(--text2)'}}>India VIX is Nifty's fear gauge — it measures the market's expectation of 30-day volatility. When VIX is in the 12–16 range, options are fairly priced. Buyers should be active here. When VIX spikes above 20, sellers are better positioned to collect elevated premiums.</p>
       </div>
 
       <Divider />
@@ -1187,7 +1279,7 @@ function GreekGamma() {
           Delta increases by: 0.003 × 100 = <strong className="g">+0.30</strong>. New Delta ≈ 0.80. Your option now earns 80 pts for every 100-pt Nifty rise — vs. 50 pts before. Gamma turned a linear position into an accelerating one.
         </Scenario>
         <Scenario type="lose" label="Nifty falls to 24,300 (−100 points)">
-          Delta decreases to ≈ 0.20. Your loss slows down too — but your directional exposure has shrunk. You\'re holding a weaker position that needs a bigger rebound to recover.
+          Delta decreases to ≈ 0.20. Your loss slows down too — but your directional exposure has shrunk. You're holding a weaker position that needs a bigger rebound to recover.
         </Scenario>
       </div>
 
@@ -1195,7 +1287,7 @@ function GreekGamma() {
         <div className="card-title" style={{color:'var(--red)'}}>Example 2 — Gamma destroys a short seller (seller loses fast)</div>
         <p style={{marginBottom:'10px'}}>You sold 24,400 CE at ₹150 expecting Nifty to stay flat. Short delta ≈ −0.50, short Gamma ≈ −0.003.</p>
         <Scenario type="lose" label="Nifty surges +200 points intraday on news">
-          Your short delta swells from −0.50 to about −0.85 as the option goes ITM. You\'re losing 200 pts × deepening delta ≈ ₹140 per unit. Lot loss ≈ ₹9,100 on a trade you thought was "low-risk premium selling." This is negative Gamma — losses compound faster than expected.
+          Your short delta swells from −0.50 to about −0.85 as the option goes ITM. You're losing 200 pts × deepening delta ≈ ₹140 per unit. Lot loss ≈ ₹9,100 on a trade you thought was "low-risk premium selling." This is negative Gamma — losses compound faster than expected.
         </Scenario>
       </div>
 
@@ -1203,7 +1295,7 @@ function GreekGamma() {
         <div className="card-title" style={{color:'var(--amber, #b45309)'}}>Example 3 — Expiry day (Gamma day) — extreme Gamma</div>
         <p style={{marginBottom:'10px'}}>Last Tuesday of the month. Weekly expiry. Nifty oscillating around 24,400. ATM Gamma is 5–10× normal levels.</p>
         <Scenario type="win" label="Nifty moves +50 points in the last 30 minutes">
-          The 24,400 CE can swing from ₹8 to ₹55 almost instantly — a 6-7× premium move. On a lot, that\'s a ₹3,000+ swing on what looked like a cheap ₹520 bet. Buyers who get the direction right on expiry day can make outsized gains.
+          The 24,400 CE can swing from ₹8 to ₹55 almost instantly — a 6-7× premium move. On a lot, that's a ₹3,000+ swing on what looked like a cheap ₹520 bet. Buyers who get the direction right on expiry day can make outsized gains.
         </Scenario>
         <Scenario type="lose" label="Flip side — seller of that same option">
           The seller collected ₹8 × 65 = ₹520 in premium. A ₹47 adverse move → lot loss of ₹3,055. This is why experienced traders call expiry day "Gamma day" and why naked ATM selling on expiry is considered one of the riskiest trades in the book.
@@ -1220,6 +1312,37 @@ function GreekGamma() {
           <Metric label="Deep OTM" val="Low Gamma" />
         </div>
         <p style={{fontSize:'13px',marginTop:'12px',color:'var(--text2)'}}>Near expiry, ATM Gamma explodes. A 50-point Nifty swing on expiry day can swing an ATM option from worthless to ₹50 instantly. This is why expiry day is called Gamma day by experienced traders — and why selling ATM options on expiry day carries extreme risk.</p>
+      </div>
+
+      <Divider />
+      <h3>What Gamma level to consider when entering a trade</h3>
+      <div className="grid2" style={{marginBottom:'1rem'}}>
+        <div className="card" style={{borderColor:'rgba(26,86,219,0.15)',background:'rgba(26,86,219,0.03)'}}>
+          <div className="card-title" style={{color:'var(--blue)'}}>Buyers — when to embrace high Gamma</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="Best for" val="Strong conviction trades" color="blue" />
+            <Metric label="Days to expiry" val="3 – 10 days" color="blue" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>If you have strong directional conviction and expect a quick, decisive Nifty move, high Gamma ATM options (1–2 weeks from expiry) deliver outsized gains. The trade must be right and fast — if Nifty stalls, high Theta will eat your premium simultaneously.</p>
+        </div>
+        <div className="card" style={{borderColor:'rgba(192,57,43,0.15)',background:'rgba(192,57,43,0.03)'}}>
+          <div className="card-title" style={{color:'var(--red)'}}>Sellers — when to avoid high Gamma</div>
+          <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+            <Metric label="Avoid selling" val="Final 5 days ATM" color="red" />
+            <Metric label="Gamma risk" val="Extreme near expiry" color="red" />
+          </div>
+          <p style={{fontSize:'13px',color:'var(--text2)'}}>Sellers should be extremely cautious about selling ATM options in the last 5 days. Gamma is so high that a 100-point intraday Nifty move can turn a profitable position into a catastrophic loss within hours. If you sell, sell further OTM where Gamma is lower.</p>
+        </div>
+      </div>
+      <div className="card" style={{borderColor:'rgba(180,83,9,0.15)',background:'rgba(180,83,9,0.03)'}}>
+        <div className="card-title">Gamma vs days to expiry — what to expect</div>
+        <div className="metric-row" style={{marginTop:'8px',marginBottom:'10px'}}>
+          <Metric label="30 days" val="Low (0.001–0.002)" />
+          <Metric label="15 days" val="Moderate (0.002–0.004)" color="gold" />
+          <Metric label="7 days" val="High (0.004–0.008)" color="gold" />
+          <Metric label="Expiry day" val="Extreme (0.01+)" color="red" />
+        </div>
+        <p style={{fontSize:'13px',color:'var(--text2)'}}>These Gamma values are approximate for an ATM Nifty option. On expiry day, Gamma can exceed 0.01 — meaning a 100-point Nifty move changes Delta by over 1.0, which represents the full ITM-to-OTM swing. Position sizing becomes critical as expiry approaches.</p>
       </div>
 
       <Divider />

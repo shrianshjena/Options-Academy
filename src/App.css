@@ -135,6 +135,7 @@ header {
 .metric .mval.green { color: var(--teal); }
 .metric .mval.red   { color: var(--red); }
 .metric .mval.blue  { color: var(--blue); }
+.metric .mval.blue  { color: var(--blue); }
 .metric .mval.gold  { color: var(--blue); }
 
 /* ANALOGY */
